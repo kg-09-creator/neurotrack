@@ -122,23 +122,25 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
-// FIXED: Converted manual log route to async await to guarantee safe sequential saving
 app.post('/api/manual-log', async (req, res) => {
     try {
-        const { sleep, steps, hrv } = req.body;
+        // ADDED: The server now accepts a 'date' field sent directly from your shortcut
+        const { sleep, steps, hrv, date } = req.body; 
         const history = await readHistory();
-        const todayStr = getLocalDateString();
+        
+        // Use the date from the shortcut if it exists; otherwise, fallback to local server date
+        const targetDate = date || getLocalDateString();
 
-        if (!history[todayStr]) {
-            history[todayStr] = { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
+        if (!history[targetDate]) {
+            history[targetDate] = { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
         }
 
-        if (sleep !== undefined) history[todayStr].sleep_hours = parseFloat(sleep);
-        if (steps !== undefined) history[todayStr].steps = parseInt(steps);
-        if (hrv !== undefined) history[todayStr].hrv = parseInt(hrv);
+        if (sleep !== undefined) history[targetDate].sleep_hours = parseFloat(sleep);
+        if (steps !== undefined) history[targetDate].steps = parseInt(steps);
+        if (hrv !== undefined) history[targetDate].hrv = parseInt(hrv);
 
         await writeHistory(history);
-        res.json({ success: true });
+        res.json({ success: true, loggedForDate: targetDate });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
