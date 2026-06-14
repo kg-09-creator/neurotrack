@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeuroTrack | Open Source Personal Wellness Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+<style>
         :root {
             --bg-calm: #f0f4f1;
             --text-main: #2b3a42;
@@ -16,9 +16,20 @@
             --accent-yellow: #d97706;
             --accent-red: #dc2626;
             --card-shadow: 0 10px 25px -5px rgba(43, 58, 66, 0.05), 0 8px 10px -6px rgba(43, 58, 66, 0.05);
-            --recovery-blue: #3b82f6;
-        --recovery-amber: #f59e0b;
-            --recovery-bg: #f8fbff;
+            
+            /* Recovery Theme Profiles */
+            --recovery-blue: #1e3a8a;
+            --recovery-light: #3b82f6;
+            --recovery-bg: #f0f4f8;
+            --recovery-secondary: #475569;
+        }
+
+        /* DYNAMIC RECOVERY THEME CLASS OVERRIDE */
+        body.recovery-mode {
+            --bg-calm: var(--recovery-bg);
+            --primary: var(--recovery-blue);
+            --primary-light: var(--recovery-light);
+            --secondary: var(--recovery-secondary);
         }
 
         body { 
@@ -28,6 +39,7 @@
             margin: 0; 
             padding: 24px;
             line-height: 1.5;
+            transition: background 0.5s ease;
         }
         .container { max-width: 1200px; margin: 0 auto; }
         
@@ -39,8 +51,8 @@
             padding-bottom: 20px; 
             margin-bottom: 30px; 
         }
-        h1 { color: var(--primary); margin: 0; font-weight: 700; letter-spacing: -0.5px; }
-        h1 span { color: var(--secondary); font-weight: 400; }
+        h1 { color: var(--primary); margin: 0; font-weight: 700; letter-spacing: -0.5px; transition: color 0.5s ease; }
+        h1 span { color: var(--secondary); font-weight: 400; transition: color 0.5s ease; }
         
         .grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; }
         
@@ -81,10 +93,9 @@
         
         .metric-row { display: flex; justify-content: space-between; align-items: center; margin: 16px 0; padding-bottom: 12px; border-bottom: 1px solid #f1f5f4; }
         .metric-row span:first-child { color: var(--text-muted); font-weight: 500; }
-        .value { color: var(--text-main); font-weight: 700; font-size: 1.15em; }
         
-        /* Lightened font option explicitly targeting the HRV metric display layout */
-        .value-light { font-weight: 400; color: #a1adb9; font-size: 1.15em; }
+        /* FIXED: Corrected typography assignment to display as solid bold text */
+        .value { color: var(--text-main); font-weight: 700; font-size: 1.15em; }
         
         .slider-group { margin-bottom: 24px; }
         .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -201,6 +212,44 @@
             visibility: visible;
             opacity: 1;
         }
+
+        /* BOX BREATHING STRUCTURAL MECHANICS */
+        .breathing-box-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #fafbfc;
+            border-radius: 16px;
+            margin-top: 15px;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .breathing-circle-track {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .breathing-core-node {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            transition: transform 4s linear, background-color 0.5s ease;
+        }
+        .breathing-prompt-text {
+            margin-top: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
@@ -250,6 +299,18 @@
                 <div id="actionStepsPanel" class="card" style="margin-top: 30px; display: none;">
                     <h2 id="actionTitle"></h2>
                     <ul id="actionList"></ul>
+                    
+                    <div id="breathingWidget" style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #f1f5f4; display: none;">
+                        <h3 style="margin: 0 0 5px 0;">Vagal Nerve Reset: Box Breathing Guide</h3>
+                        <p style="margin: 0 0 15px 0; font-size: 0.9em; color: var(--text-muted);">Calm autonomic strain instantly. Follow the breathing node sequence below.</p>
+                        <div class="breathing-box-wrapper">
+                            <div class="breathing-circle-track">
+                                <div id="breathingNode" class="breathing-core-node"></div>
+                            </div>
+                            <div id="breathingPrompt" class="breathing-prompt-text">Ready</div>
+                            <button class="btn btn-alt" id="breathingActionBtn" onclick="toggleBreathingCycle()" style="margin-top: 15px; padding: 6px 16px; font-size: 0.85em;">Start Exercise</button>
+                        </div>
+                    </div>
                     
                     <div id="namiSupportBox" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #f1f5f4; display: none;">
                         <h3 style="color: var(--text-main); margin-bottom: 10px; margin-top: 0; font-size: 1.1em;">Connected Support Resources</h3>
@@ -349,7 +410,7 @@
                         <span>Today's HRV: 
                             <span class="tooltip">ⓘ<span class="tooltiptext">Heart Rate Variability. Higher values indicate low physiological strain and deep systemic recovery.</span></span>
                         </span>
-                        <span id="todayHRV" class="value-light">--</span>
+                        <span id="todayHRV" class="value">--</span>
                     </div>
                     <div class="metric-row" style="font-size: 0.88em; padding-left: 12px; border: none; margin-top: -10px; margin-bottom: 15px;">
                         <span>Target Baseline:</span>
@@ -377,6 +438,8 @@
         let trendChartInstance = null; 
         let lastKnownSteps = null; 
         let currentDaytimeMoodModifier = 0; 
+        let breathingTimer = null;
+        let breathingCycleActive = false;
         
         // Dynamic volatile storage tracking user completion checklists across app polling renders
         const completedTaskRegistry = {};
@@ -510,6 +573,13 @@
                 li.innerText = "Everything looks great! All your metrics are in a healthy range.";
                 li.style.borderLeftColor = 'var(--primary)';
                 list.appendChild(li);
+            }
+
+            // Global Body Profile Class Toggles for Recovery Color Shifts
+            if (baseRiskScore >= 75 || currentDaytimeMoodModifier === 75) {
+                document.body.classList.add('recovery-mode');
+            } else {
+                document.body.classList.remove('recovery-mode');
             }
 
             renderStressGuides(baseRiskScore);
@@ -663,10 +733,13 @@
             const title = document.getElementById('actionTitle');
             const list = document.getElementById('actionList');
             const namiBox = document.getElementById('namiSupportBox');
+            const breathingWidget = document.getElementById('breathingWidget');
             
             if (riskScore === 0) {
                 panel.style.display = 'none';
                 if(namiBox) namiBox.style.display = 'none';
+                if(breathingWidget) breathingWidget.style.display = 'none';
+                stopBreathingCycle();
                 return;
             }
             
@@ -675,9 +748,11 @@
             
             if (riskScore > 0 && riskScore < 75) {
                 panel.style.borderLeft = '6px solid var(--accent-yellow)';
-                title.innerText = '⏳ Take it Easy: Let\'s bring your stress down';
+                title.innerText = "⏳ Take it Easy: Let's bring your stress down";
                 title.style.color = 'var(--accent-yellow)';
                 if(namiBox) namiBox.style.display = 'none';
+                if(breathingWidget) breathingWidget.style.display = 'none';
+                stopBreathingCycle();
                 
                 const task1Checked = completedTaskRegistry['low_screen'] ? 'checked' : '';
                 const task2Checked = completedTaskRegistry['low_water'] ? 'checked' : '';
@@ -699,9 +774,10 @@
                 `;
             } else if (riskScore >= 75) {
                 panel.style.borderLeft = '6px solid var(--accent-red)';
-                title.innerText = '🛑 Time to Recharge: Your body needs a break';
+                title.innerHTML = "🛡️ Active System Protocols: <span style='color:var(--primary); font-weight:800;'>Recovery Mode</span>";
                 title.style.color = 'var(--accent-red)';
                 if(namiBox) namiBox.style.display = 'block';
+                if(breathingWidget) breathingWidget.style.display = 'block';
 
                 const taskHeavy1Checked = completedTaskRegistry['heavy_rest'] ? 'checked' : '';
                 const taskHeavy2Checked = completedTaskRegistry['heavy_screen'] ? 'checked' : '';
@@ -709,13 +785,67 @@
                 list.innerHTML = `
                     <li style="border-left-color: var(--accent-red)">
                         <input type="checkbox" class="action-checkbox" id="heavy_rest" ${taskHeavy1Checked} onclick="registerActionState('heavy_rest', this)">
-                        <span><b>Stop and Rest:</b> Pause any stressful tasks or heavy work right now. Your health comes first, so find a comfortable place to relax for the day.</span>
+                        <span><b>Academic Intercept Protocol:</b> Pivot to standard extension paradigms. Utilize the NAMI peer layout map template if communication feels heavy.</span>
                     </li>
                     <li style="border-left-color: var(--accent-red)">
                         <input type="checkbox" class="action-checkbox" id="heavy_screen" ${taskHeavy2Checked} onclick="registerActionState('heavy_screen', this)">
-                        <span><b>No Screens Before Bed:</b> Turn off your phone, tablet, or TV at least an hour or two before you sleep to help your brain rest naturally.</span>
+                        <span><b>Physical Boundary Safeguard:</b> Cap active steps at your target threshold baseline. Restrict extra training load.</span>
                     </li>
                 `;
+            }
+        }
+
+        // Box Breathing Lifecycle Methods
+        function toggleBreathingCycle() {
+            if (breathingCycleActive) {
+                stopBreathingCycle();
+            } else {
+                startBreathingCycle();
+            }
+        }
+
+        function startBreathingCycle() {
+            breathingCycleActive = true;
+            document.getElementById('breathingActionBtn').innerText = "Stop Exercise";
+            const node = document.getElementById('breathingNode');
+            const prompt = document.getElementById('breathingPrompt');
+            
+            let phase = 0; 
+            
+            const runPhase = () => {
+                if (!breathingCycleActive) return;
+                if (phase === 0) {
+                    prompt.innerText = "💨 Inhale (4s)";
+                    node.style.transform = "scale(2.2)";
+                    phase = 1;
+                } else if (phase === 1) {
+                    prompt.innerText = "🛑 Hold (4s)";
+                    phase = 2;
+                } else if (phase === 2) {
+                    prompt.innerText = "😮💨 Exhale (4s)";
+                    node.style.transform = "scale(1.0)";
+                    phase = 3;
+                } else if (phase === 3) {
+                    prompt.innerText = "🛑 Hold (4s)";
+                    phase = 0;
+                }
+            };
+
+            runPhase();
+            breathingTimer = setInterval(runPhase, 4000);
+        }
+
+        function stopBreathingCycle() {
+            breathingCycleActive = false;
+            clearInterval(breathingTimer);
+            if (document.getElementById('breathingActionBtn')) {
+                document.getElementById('breathingActionBtn').innerText = "Start Exercise";
+            }
+            if (document.getElementById('breathingPrompt')) {
+                document.getElementById('breathingPrompt').innerText = "Ready";
+            }
+            if (document.getElementById('breathingNode')) {
+                document.getElementById('breathingNode').style.transform = "scale(1.0)";
             }
         }
 
@@ -725,7 +855,6 @@
 
         function triggerReset() {
             currentDaytimeMoodModifier = 0;
-            // Clear checkmark persistent cache registry on factory reset
             for (let key in completedTaskRegistry) delete completedTaskRegistry[key];
             
             document.getElementById('moodGood').classList.remove('active');
@@ -733,6 +862,6 @@
             document.getElementById('moodStressed').classList.remove('active');
             fetch('/api/reset', { method: 'POST' }).then(() => updateDashboard(true));
         }
-    </script>
+</script>
 </body>
 </html>
