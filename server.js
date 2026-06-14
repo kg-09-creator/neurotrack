@@ -45,57 +45,48 @@ async function writeHistory(history) {
 function calculateDashboardMetrics(history) {
     const todayStr = getLocalDateString();
     
-    // Fallback defaults if absolutely nothing exists yet
-    const todayData = history[todayStr] || { sleep_hours: 0, steps: 0, calories: 0, hrv: 65 };
+    // Configured exclusively for Steps and Calories
+    const todayData = history[todayStr] || { steps: 0, calories: 0 };
     const allDates = Object.keys(history).sort();
     
-    // FIXED: Loosened historical filters so logs aren't accidentally hidden from baseline maps
     const historicalDates = allDates.filter(d => {
-        return history[d] && (history[d].steps >= 0 || history[d].sleep_hours >= 0);
+        return history[d] && (history[d].steps >= 0 || history[d].calories >= 0);
     }).slice(-14);
 
     const avgSteps = historicalDates.length ? (historicalDates.reduce((acc, d) => acc + (Number(history[d].steps) || 0), 0) / historicalDates.length) : 8000;
     const avgCalories = historicalDates.length ? (historicalDates.reduce((acc, d) => acc + (Number(history[d].calories) || 0), 0) / historicalDates.length) : 600;
-    const avgSleep = historicalDates.length ? (historicalDates.reduce((acc, d) => acc + (Number(history[d].sleep_hours) || 0), 0) / historicalDates.length) : 7.5;
-    const avgHRV = historicalDates.length ? (historicalDates.reduce((acc, d) => acc + (Number(history[d].hrv) || 0), 0) / historicalDates.length) : 65;
 
     const triggers = [];
     let riskScore = 0;
 
-    if (Number(todayData.sleep_hours) < avgSleep * 0.85 && Number(todayData.sleep_hours) > 0) {
-        triggers.push(`Rest Deficit: Only logged ${todayData.sleep_hours}h of sleep (Baseline: ${avgSleep.toFixed(1)}h).`);
-        riskScore += 35;
-    }
     if (Number(todayData.steps) < avgSteps * 0.7 && Number(todayData.steps) > 0) {
         triggers.push(`Physical Deficit: Steps dropped down to ${Number(todayData.steps).toLocaleString()} (Baseline: ${Math.round(avgSteps).toLocaleString()}).`);
-        riskScore += 35;
+        riskScore += 50;
     }
-    if (Number(todayData.hrv) < avgHRV * 0.75 && Number(todayData.hrv) > 0) {
-        triggers.push(`Autonomic Strain: HRV dropped down to ${todayData.hrv} ms (Baseline: ${Math.round(avgHRV)} ms).`);
-        riskScore += 30;
+    if (Number(todayData.calories) < avgCalories * 0.7 && Number(todayData.calories) > 0) {
+        triggers.push(`Energy Burn Deficit: Output dropped down to ${Number(todayData.calories).toLocaleString()} kcal (Baseline: ${Math.round(avgCalories).toLocaleString()} kcal).`);
+        riskScore += 50;
     }
 
     riskScore = Math.min(riskScore, 100);
     let systemState = "Stable & Balanced";
-    if (riskScore >= 70) systemState = "Critical Burnout";
+    if (riskScore >= 70) systemState = "Inactive State";
     else if (riskScore > 0) systemState = "Caution";
 
     return {
         systemState,
         riskScore,
         today: {
-            sleep_hours: parseFloat(parseFloat(todayData.sleep_hours || 0).toFixed(1)),
             steps: Math.round(todayData.steps || 0),
             calories: Math.round(todayData.calories || 0),
-            hrv: Math.round(todayData.hrv || 65)
+            sleep_hours: 0, // structural bypass
+            hrv: 0          // structural bypass
         },
         baselines: {
-            sleepMean: parseFloat(avgSleep.toFixed(1)),
             stepsMean: Math.round(avgSteps),
-            caloriesMean: Math.round(avgCalories),
-            hrvMean: Math.round(avgHRV)
+            caloriesMean: Math.round(avgCalories)
         },
-        triggers: triggers.length ? triggers : ["All parameters look healthy and within your normal range."]
+        triggers: triggers.length ? triggers : ["Activity parameters look balanced for today."]
     };
 }
 
@@ -108,67 +99,24 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
-// FIXED: Sanitizes Shortcut payload data strings straight into actual Numbers
 app.post('/api/manual-log', async (req, res) => {
     try {
-        const { sleep, steps, hrv, date } = req.body;
+        const { steps, calories, date } = req.body;
         console.log("Incoming Payload Data From iOS:", req.body);
 
         const history = await readHistory();
         const targetDate = date || getLocalDateString();
 
         if (!history[targetDate]) {
-            history[targetDate] = { sleep_hours: 0, steps: 0, calories: 0, hrv: 65 };
+            history[targetDate] = { steps: 0, calories: 0 };
         }
 
-        // Force convert incoming strings into functional numbers
-        if (sleep !== undefined) history[targetDate].sleep_hours = parseFloat(sleep) || 0;
+        // Only parse steps and calories
         if (steps !== undefined) history[targetDate].steps = parseInt(steps, 10) || 0;
-        if (hrv !== undefined) history[targetDate].hrv = parseInt(hrv, 10) || 65;
+        if (calories !== undefined) history[targetDate].calories = parseInt(calories, 10) || 0;
 
         await writeHistory(history);
         res.json({ success: true, dateLogged: targetDate, currentStore: history[targetDate] });
-    } catch (err) {
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
-
-app.post(['/api/upload-xml', '/api/upload-csv'], upload.any(), async (req, res) => {
-    try {
-        const targetedFile = req.file || (req.files && req.files.find(f => f.fieldname === 'csvFile')) || (req.files && req.files[0]);
-        if (!targetedFile) return res.status(400).json({ success: false, error: "No file received." });
-
-        const xmlData = targetedFile.buffer.toString('utf8');
-        const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
-        const jsonObj = parser.parse(xmlData);
-
-        let rawRecords = jsonObj.HealthData?.Record || [];
-        if (!Array.isArray(rawRecords)) rawRecords = [rawRecords];
-
-        const history = await readHistory();
-        const todayStr = getLocalDateString(); 
-
-        rawRecords.forEach(rec => {
-            if (!rec.startDate) return;
-            const dateStr = rec.startDate.substring(0, 10);
-            if (dateStr === todayStr) return;
-
-            if (!history[dateStr]) {
-                history[dateStr] = { sleep_hours: 0, steps: 0, calories: 0, hrv: 65 };
-            }
-
-            if (rec.type === "HKCategoryTypeIdentifierSleepAnalysis" || rec.value === "HKCategoryValueSleepAnalysisAsleep") {
-                const start = new Date(rec.startDate);
-                const end = new Date(rec.endDate || rec.startDate);
-                const durationHrs = (end - start) / (1000 * 60 * 60);
-                if (durationHrs > 0 && durationHrs < 24) history[dateStr].sleep_hours += durationHrs;
-            }
-            if (rec.type === "HKQuantityTypeIdentifierStepCount") history[dateStr].steps += parseInt(rec.value || 0, 10);
-            if (rec.type === "HKQuantityTypeIdentifierActiveEnergyBurned") history[dateStr].calories += parseFloat(rec.value || 0);
-        });
-
-        await writeHistory(history);
-        res.json({ success: true });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -178,35 +126,22 @@ app.get('/api/history-timeline', async (req, res) => {
     try {
         const history = await readHistory();
         const allDates = Object.keys(history).sort();
-        
-        // FIXED: Dropped rigid visual locks so any uploaded days render directly onto ChartJS
         const sortedDates = allDates.filter(d => history[d]).slice(-14);
 
         const labels = [];
-        const sleepDataset = [];
         const stepsDataset = [];
-        const hrvDataset = [];
+        const caloriesDataset = [];
 
         sortedDates.forEach(date => {
             const dateObj = new Date(date + 'T00:00:00');
             const formattedLabel = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
             
             labels.push(formattedLabel);
-            sleepDataset.push(parseFloat((history[date].sleep_hours || 0).toFixed(1)));
             stepsDataset.push(Math.round(history[date].steps || 0));
-            hrvDataset.push(Math.round(history[date].hrv || 65));
+            caloriesDataset.push(Math.round(history[date].calories || 0));
         });
 
-        res.json({ labels, sleep: sleepDataset, steps: stepsDataset, hrv: hrvDataset });
-    } catch (err) {
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
-
-app.post('/api/reset', async (req, res) => {
-    try {
-        await kv.del(KV_HISTORY_KEY);
-        res.json({ success: true });
+        res.json({ labels, steps: stepsDataset, calories: caloriesDataset });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
