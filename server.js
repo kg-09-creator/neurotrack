@@ -8,8 +8,16 @@ const app = express();
 // FIXED: Use memory storage instead of disk storage to prevent Vercel EROFS read-only crashes
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.use(express.static('public'));
+// --- VERCEL ROUTING PATCHES ---
+// Tells Express to serve all static asset structures from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
+// Explicitly forces index.html distribution on base project entry queries
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+// ------------------------------
 
 // FIXED: Use Vercel's writable temporary directory (/tmp) for execution on cloud instances
 const DATA_FILE = process.env.VERCEL ? path.join('/tmp', 'history.json') : path.join(__dirname, 'history.json');
@@ -119,12 +127,14 @@ app.post('/api/manual-log', (req, res) => {
     res.json({ success: true });
 });
 
-// FIXED: Read file data structure dynamically from incoming RAM buffer to accommodate memory storage routing
-app.post('/api/upload-xml', upload.single('appleHealthFile'), (req, res) => {
+// ROUTE CONFIGURATION UPGRADE: Handles array patterns to bridge index.html uploads (/api/upload-csv & /api/upload-xml)
+app.post(['/api/upload-xml', '/api/upload-csv'], upload.single('csvFile'), (req, res) => {
     try {
-        if (!req.file) return res.status(400).json({ success: false, error: "No file received." });
+        // Fallback checks for standard input names if field tags shift dynamically
+        const targetedFile = req.file || req.files?.[0];
+        if (!targetedFile) return res.status(400).json({ success: false, error: "No file received." });
 
-        const xmlData = req.file.buffer.toString('utf8');
+        const xmlData = targetedFile.buffer.toString('utf8');
         const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
         const jsonObj = parser.parse(xmlData);
 
