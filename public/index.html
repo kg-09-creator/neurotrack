@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroTrack | Open Source Personal Wellness Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-calm: #f0f4f1;
+            --text-main: #2b3a42;
+            --text-muted: #5c6f72;
+            --primary: #3f6b4e;
+            --primary-light: #528965;
+            --secondary: #55918f;
+            --accent-yellow: #d97706;
+            --accent-red: #dc2626;
+            --card-shadow: 0 10px 25px -5px rgba(43, 58, 66, 0.05), 0 8px 10px -6px rgba(43, 58, 66, 0.05);
+            --recovery-blue: #3b82f6;
+        --recovery-amber: #f59e0b;
+            --recovery-bg: #f8fbff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background: var(--bg-calm);
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 24px;
+            line-height: 1.5;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid rgba(0,0,0,0.04); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+        }
+        h1 { color: var(--primary); margin: 0; font-weight: 700; letter-spacing: -0.5px; }
+        h1 span { color: var(--secondary); font-weight: 400; }
+        
+        .grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; }
+        
+        .card { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255,255,255,0.8);
+            position: relative; 
+        }
+        
+        h2 { color: var(--text-main); margin-top: 0; font-size: 1.4em; font-weight: 600; margin-bottom: 20px; }
+        h3 { color: var(--text-main); margin-top: 25px; font-size: 1.15em; font-weight: 600; }
+        
+        .btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 24px; 
+            border-radius: 24px; 
+            font-weight: 600; 
+            font-size: 0.9em;
+            cursor: pointer; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 4px 6px -1px rgba(63, 107, 78, 0.15);
+        }
+        .btn:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: 0 10px 15px -3px rgba(63, 107, 78, 0.2); }
+        .btn-alt { background: #ffffff; border: 1px solid rgba(0,0,0,0.12); color: var(--text-main); box-shadow: none; }
+        .btn-alt:hover { background: #f8faf9; color: var(--primary); border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        
+        .mood-container { display: flex; gap: 12px; margin-top: 15px; }
+        .btn-mood { flex: 1; padding: 14px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08); background: #ffffff; font-size: 0.95em; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
+        .btn-mood:hover { background: #f8faf9; border-color: var(--secondary); color: var(--text-main); }
+        .btn-mood.active { background: #edf7f4; border-color: var(--primary); font-weight: 600; color: var(--primary); }
+
+        .hidden { display: none; }
+        
+        .metric-row { display: flex; justify-content: space-between; align-items: center; margin: 16px 0; padding-bottom: 12px; border-bottom: 1px solid #f1f5f4; }
+        .metric-row span:first-child { color: var(--text-muted); font-weight: 500; }
+        .value { color: var(--text-main); font-weight: 700; font-size: 1.15em; }
+        
+        /* Lightened font option explicitly targeting the HRV metric display layout */
+        .value-light { font-weight: 400; color: #a1adb9; font-size: 1.15em; }
+        
+        .slider-group { margin-bottom: 24px; }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .slider-label { font-weight: 600; color: var(--text-main); font-size: 0.95em; }
+        .slider-display { color: var(--primary); font-weight: 700; background: #f0f4f2; padding: 6px 14px; border-radius: 10px; font-size: 0.9em; min-width: 60px; text-align: center; }
+        
+        input[type="range"] { 
+            -webkit-appearance: none; 
+            appearance: none; 
+            width: 100%; 
+            height: 6px; 
+            background: #e2e8f0; 
+            border-radius: 8px; 
+            outline: none; 
+        }
+        input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            appearance: none; 
+            width: 22px; 
+            height: 22px; 
+            border-radius: 50%; 
+            background: var(--primary); 
+            cursor: pointer; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        
+        .diag-body { display: flex; justify-content: space-between; align-items: center; gap: 30px; margin-bottom: 20px; background: #f8faf9; padding: 20px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.02); }
+        .diag-left { flex: 1; }
+
+        .donut-container { position: relative; width: 140px; height: 140px; display: flex; justify-content: center; align-items: center; }
+        .donut-chart { width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#edf2f1 0% 100%); transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .donut-hole { position: absolute; width: 106px; height: 106px; background: #ffffff; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .donut-val { font-size: 1.8em; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .donut-lbl { font-size: 0.75em; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-top: -2px; }
+
+        ul#triggerList, ul#actionList { list-style-type: none; padding: 0; margin: 0; }
+        ul#triggerList li, ul#actionList li { 
+            background: #f8faf9; 
+            padding: 14px 16px; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            font-size: 0.95em; 
+            border-left: 4px solid var(--secondary);
+            color: var(--text-main);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .action-checkbox {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        
+        .graph-container { margin-top: 25px; background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid rgba(0,0,0,0.06); }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75em;
+            color: var(--text-muted);
+            background: #f0f4f2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-left: 4px;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #2b3a42;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 0.8em;
+            font-weight: 400;
+            line-height: 1.3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Neuro<span>Track</span></h1>
+            <div>
+                <button class="btn btn-alt" style="margin-right: 6px;" onclick="toggleGraphs()">📊 View History Trends</button>
+                <button class="btn" onclick="document.getElementById('csvFileInput').click()">Import Logs (.XML / .CSV)</button>
+                <button class="btn btn-alt" style="margin-left: 6px;" onclick="triggerSimulation()">Test Heavy Load</button>
+                <button class="btn btn-alt" style="border-color: var(--accent-red); color: var(--accent-red);" onclick="triggerReset()">Reset</button>
+                <input type="file" id="csvFileInput" class="hidden" onchange="handleFileUpload()">
+            </div>
+        </div>
+
+        <div id="graphDrawer" class="card hidden" style="margin-bottom: 30px;">
+            <h2>Historical Biometric Trends</h2>
+            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: -12px; margin-bottom: 20px;">Tracking your baseline progress timeline across your past 14 entries.</p>
+            <div class="graph-container">
+                <canvas id="trendsChart" style="max-height: 300px; width: 100%;"></canvas>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div>
+                <div class="card">
+                    <h2>Today's Balance</h2>
+                    <div class="diag-body">
+                        <div class="diag-left">
+                            <div class="metric-row" style="border: none; padding: 0; margin: 0;">
+                                <span style="font-size: 1em;">Current Assessment:</span>
+                                <span id="systemState" class="value" style="font-size: 1.4em; transition: color 0.3s;">Gathering data...</span>
+                            </div>
+                        </div>
+                        <div class="donut-container">
+                            <div id="donutChart" class="donut-chart"></div>
+                            <div class="donut-hole">
+                                <span id="riskScoreText" class="donut-val">0%</span>
+                                <span class="donut-lbl">Stress</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Body Insights & Reminders</h3>
+                    <ul id="triggerList"></ul>
+                </div>
+
+                <div id="actionStepsPanel" class="card" style="margin-top: 30px; display: none;">
+                    <h2 id="actionTitle"></h2>
+                    <ul id="actionList"></ul>
+                    
+                    <div id="namiSupportBox" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #f1f5f4; display: none;">
+                        <h3 style="color: var(--text-main); margin-bottom: 10px; margin-top: 0; font-size: 1.1em;">Connected Support Resources</h3>
+                        <p style="margin: 0 0 20px 0; font-size: 0.9em; color: var(--text-muted);">If you are feeling overwhelmed, you don't have to carry it alone. Choose the option that best fits what you need right now:</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div style="padding: 20px; background: #edf7f4; border-radius: 14px; border: 1px solid rgba(63, 107, 78, 0.2);">
+                                <p style="margin: 0 0 6px 0; font-weight: 700; color: var(--primary); font-size: 1em;">💬 Talk with a Peer (Non-Crisis Helpline)</p>
+                                <p style="margin: 0 0 16px 0; font-size: 0.88em; color: var(--text-main); line-height: 1.4;">Speak with a trained NAMI Santa Clara County volunteer who has lived experience with mental health challenges and understands school stress.</p>
+                                <a href="tel:4084530400" class="btn" style="text-decoration: none; display: inline-block; font-size: 0.85em; padding: 8px 18px;">Call NAMI-SCC Warmline: (408) 453-0400 ext. 1</a>
+                            </div>
+
+                            <div style="padding: 20px; background: #fdf2f2; border-radius: 14px; border: 1px solid rgba(220, 38, 38, 0.15);">
+                                <p style="margin: 0 0 6px 0; font-weight: 700; color: var(--accent-red); font-size: 1em;">🛑 Urgent Crisis & Lifeline Support</p>
+                                <p style="margin: 0 0 16px 0; font-size: 0.88em; color: var(--text-main); line-height: 1.4;">If you are experiencing a mental health crisis, severe distress, or thinking about self-harm, professional support is available free and confidentially 24/7.</p>
+                                <div style="display: flex; gap: 12px;">
+                                    <a href="tel:988" class="btn" style="background: var(--accent-red); text-decoration: none; display: inline-block; font-size: 0.85em; padding: 8px 18px; box-shadow: none;">Call 988 Lifeline</a>
+                                    <a href="sms:988" class="btn btn-alt" style="border-color: var(--accent-red); color: var(--accent-red); text-decoration: none; display: inline-block; font-size: 0.85em; padding: 8px 18px; margin-left:0;">Text 988</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2>How do you feel right now?</h2>
+                    <p style="font-size: 0.9em; color: var(--text-muted); margin-top: -12px; margin-bottom: 15px;">Log an instant daytime vibe update to automatically customize your pacing guide right now.</p>
+                    <div class="mood-container">
+                        <button id="moodGood" class="btn-mood" onclick="setUserMood('good')">😊 Good / Balanced</button>
+                        <button id="moodTired" class="btn-mood" onclick="setUserMood('tired')">😐 Tired / Fatigued</button>
+                        <button id="moodStressed" class="btn-mood" onclick="setUserMood('stressed')">😫 Stressed / Burned Out</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2>Log Manual Entry</h2>
+                    <p style="font-size: 0.9em; color: var(--text-muted); margin-top: -12px; margin-bottom: 20px;">Adjust your parameters for today and save to dynamically update your tracking analytics.</p>
+                    
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">Logged Sleep</span>
+                                <span id="sleepVal" class="slider-display">7.5h</span>
+                            </div>
+                            <input type="range" id="manualSleep" min="0" max="15" step="0.5" value="7.5" oninput="previewSliderLabels()">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">Daily Steps</span>
+                                <span id="stepsVal" class="slider-display">8,000</span>
+                            </div>
+                            <input type="range" id="manualSteps" min="0" max="20000" step="500" value="8000" oninput="previewSliderLabels()">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">Heart Rate Variability (HRV)</span>
+                                <span id="hrvVal" class="slider-display">55 ms</span>
+                            </div>
+                            <input type="range" id="manualHRV" min="10" max="150" step="1" value="55" oninput="previewSliderLabels()">
+                        </div>
+
+                        <button class="btn" onclick="commitSliderMetrics()" style="width: 100%; padding: 14px; margin-top: 10px; font-size: 1em; border-radius: 30px;">Save Metrics</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card" style="position: sticky; top: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                        <h2 style="margin: 0;">Biometrics Tracker</h2>
+                        <div class="sync-badge">
+                            <span class="pulse-dot"></span> Device Live Sync
+                        </div>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Today's Sleep:</span>
+                        <span id="todaySleep" class="value">--</span>
+                    </div>
+                    <div class="metric-row" style="font-size: 0.88em; padding-left: 12px; border: none; margin-top: -10px; margin-bottom: 15px;">
+                        <span>Target Average:</span>
+                        <span id="targetSleep" style="color: var(--text-muted); font-weight: 600;">--</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Today's Steps:</span>
+                        <span id="todaySteps" class="value">--</span>
+                    </div>
+                    <div class="metric-row" style="font-size: 0.88em; padding-left: 12px; border: none; margin-top: -10px; margin-bottom: 15px;">
+                        <span>Target Baseline:</span>
+                        <span id="targetSteps" style="color: var(--text-muted); font-weight: 600;">--</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Today's HRV: 
+                            <span class="tooltip">ⓘ<span class="tooltiptext">Heart Rate Variability. Higher values indicate low physiological strain and deep systemic recovery.</span></span>
+                        </span>
+                        <span id="todayHRV" class="value-light">--</span>
+                    </div>
+                    <div class="metric-row" style="font-size: 0.88em; padding-left: 12px; border: none; margin-top: -10px; margin-bottom: 15px;">
+                        <span>Target Baseline:</span>
+                        <span id="targetHRV" style="color: var(--text-muted); font-weight: 600;">--</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span>Active Calories:</span>
+                        <span id="todayCalories" class="value">--</span>
+                    </div>
+                    <div class="metric-row" style="font-size: 0.88em; padding-left: 12px; border: none; margin-top: -10px;">
+                        <span>Calorie Average:</span>
+                        <span id="targetCalories" style="color: var(--text-muted); font-weight: 600;">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer" style="text-align: center; margin-top: 50px; padding: 24px 0; font-size: 0.85em; color: var(--text-muted); border-top: 1px solid rgba(0,0,0,0.05);">
+            NeuroTrack is open-source software released under the MIT License. Aligned with NAMI Santa Clara County's mission to make the invisible visible.
+        </div>
+    </div>
+
+    <script>
+        let trendChartInstance = null; 
+        let lastKnownSteps = null; 
+        let currentDaytimeMoodModifier = 0; 
+        
+        // Dynamic volatile storage tracking user completion checklists across app polling renders
+        const completedTaskRegistry = {};
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateDashboard(true);
+            
+            setInterval(function() {
+                fetch('/api/status')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (lastKnownSteps !== null && data.today.steps !== lastKnownSteps) {
+                            updateDashboard(true); 
+                        }
+                        if (currentDaytimeMoodModifier === 0) {
+                            processDashboardData(data, false);
+                        }
+                    })
+                    .catch(err => console.log("Polling connection active..."));
+            }, 3000);
+        });
+
+        function updateDashboard(shouldSetSliders = false) {
+            fetch('/api/status')
+                .then(res => res.json())
+                .then(data => {
+                    processDashboardData(data, shouldSetSliders);
+                });
+        }
+
+        function processDashboardData(data, shouldSetSliders) {
+            if (lastKnownSteps === null) {
+                lastKnownSteps = data.today.steps;
+            }
+
+            let baseRiskScore = data.riskScore;
+            
+            if (currentDaytimeMoodModifier === 35) {
+                baseRiskScore = Math.min(Math.max(baseRiskScore, 40), 65);
+            } else if (currentDaytimeMoodModifier === 75) {
+                baseRiskScore = Math.max(baseRiskScore, 75);
+            } else if (currentDaytimeMoodModifier === -1) {
+                baseRiskScore = Math.max(baseRiskScore - 20, 0);
+            }
+
+            if (data.today.sleep_hours < 3) {
+                baseRiskScore = Math.max(baseRiskScore, 50);
+            }
+
+            let formattedState = data.systemState;
+            let colorCode = '#3f6b4e';
+            
+            if (baseRiskScore >= 75) {
+                formattedState = "🛑 Recovery Mode Required";
+                colorCode = '#dc2626';
+            } else if (baseRiskScore > 0) {
+                formattedState = "⏳ Pacing Recommended";
+                colorCode = '#d97706';
+            } else {
+                formattedState = "🌿 Balanced & Vibrant";
+            }
+
+            document.getElementById('systemState').innerText = formattedState;
+            document.getElementById('riskScoreText').innerText = baseRiskScore + "%";
+            document.getElementById('systemState').style.color = colorCode;
+            
+            const chart = document.getElementById('donutChart');
+            if (chart) {
+                chart.style.background = `conic-gradient(${colorCode} 0% ${baseRiskScore}%, #edf2f1 ${baseRiskScore}% 100%)`;
+            }
+
+            document.getElementById('todaySleep').innerText = data.today.sleep_hours + " hrs";
+            document.getElementById('targetSleep').innerText = data.baselines.sleepMean + " hrs";
+            document.getElementById('todaySteps').innerText = data.today.steps.toLocaleString();
+            document.getElementById('targetSteps').innerText = data.baselines.stepsMean.toLocaleString();
+            document.getElementById('todayHRV').innerText = (data.today.hrv || 65) + " ms";
+            document.getElementById('targetHRV').innerText = (data.baselines.hrvMean || 65) + " ms";
+            document.getElementById('todayCalories').innerText = (data.today.calories || 0) + " kcal";
+            document.getElementById('targetCalories').innerText = (data.baselines.caloriesMean || 0) + " kcal";
+
+            if (shouldSetSliders) {
+                document.getElementById('manualSleep').value = data.today.sleep_hours;
+                document.getElementById('manualSteps').value = data.today.steps;
+                document.getElementById('manualHRV').value = data.today.hrv || 65;
+                previewSliderLabels();
+            }
+
+            const list = document.getElementById('triggerList');
+            list.innerHTML = '';
+
+            data.triggers.forEach(t => {
+                if (t.includes("All parameters look healthy")) return;
+                let li = document.createElement('li');
+                li.innerHTML = `<span>${t}</span>`;
+                li.style.borderLeftColor = 'var(--secondary)';
+                list.appendChild(li);
+            });
+
+            if (data.today.steps < data.baselines.stepsMean) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span>🏃‍♂️ <b>Activity:</b> You haven't reached your usual step count today. Try going for a quick 10-minute walk to get moving.</span>`;
+                li.style.borderLeftColor = 'var(--secondary)'; 
+                list.appendChild(li);
+            }
+
+            if (data.today.sleep_hours < data.baselines.sleepMean) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span>🌙 <b>Sleep:</b> You got less rest than usual last night. Try going to bed 30 minutes earlier tonight.</span>`;
+                li.style.borderLeftColor = 'var(--accent-red)'; 
+                list.appendChild(li);
+            }
+
+            const currentHRV = data.today.hrv || 65;
+            const baselineHRV = data.baselines.hrvMean || 65;
+            if (currentHRV < (baselineHRV * 0.75)) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span>🧘 <b>Heart Rate Variability (HRV):</b> Your score is a bit low, which means your body might be tired. Take a few slow, deep breaths to relax.</span>`;
+                li.style.borderLeftColor = 'var(--accent-yellow)'; 
+                list.appendChild(li);
+            }
+
+            if (currentDaytimeMoodModifier > 0) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span>⚡ <b>Daytime Check-in:</b> You logged a wave of mental or physical fatigue during the day. Dashboard customized to recovery paths.</span>`;
+                li.style.borderLeftColor = 'var(--accent-red)';
+                list.appendChild(li);
+            }
+
+            if (list.childNodes.length === 0) {
+                let li = document.createElement('li');
+                li.innerText = "Everything looks great! All your metrics are in a healthy range.";
+                li.style.borderLeftColor = 'var(--primary)';
+                list.appendChild(li);
+            }
+
+            renderStressGuides(baseRiskScore);
+            
+            if (!document.getElementById('graphDrawer').classList.contains('hidden')) {
+                buildTrendGraphs();
+            }
+        }
+
+        function setUserMood(moodType) {
+            document.getElementById('moodGood').classList.remove('active');
+            document.getElementById('moodTired').classList.remove('active');
+            document.getElementById('moodStressed').classList.remove('active');
+
+            if (moodType === 'good') {
+                document.getElementById('moodGood').classList.add('active');
+                currentDaytimeMoodModifier = -1; 
+            } else if (moodType === 'tired') {
+                document.getElementById('moodTired').classList.add('active');
+                currentDaytimeMoodModifier = 35; 
+            } else if (moodType === 'stressed') {
+                document.getElementById('moodStressed').classList.add('active');
+                currentDaytimeMoodModifier = 75; 
+            }
+            updateDashboard(false);
+        }
+
+        function previewSliderLabels() {
+            const sleep = parseFloat(document.getElementById('manualSleep').value);
+            const steps = parseInt(document.getElementById('manualSteps').value);
+            const hrv = parseInt(document.getElementById('manualHRV').value);
+
+            document.getElementById('sleepVal').innerText = sleep + "h";
+            document.getElementById('stepsVal').innerText = steps.toLocaleString();
+            document.getElementById('hrvVal').innerText = hrv + " ms";
+        }
+
+        function commitSliderMetrics() {
+            const sleep = parseFloat(document.getElementById('manualSleep').value);
+            const steps = parseInt(document.getElementById('manualSteps').value);
+            const hrv = parseInt(document.getElementById('manualHRV').value);
+
+            currentDaytimeMoodModifier = 0;
+            document.getElementById('moodGood').classList.remove('active');
+            document.getElementById('moodTired').classList.remove('active');
+            document.getElementById('moodStressed').classList.remove('active');
+
+            fetch('/api/manual-log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sleep: sleep, steps: steps, hrv: hrv })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    lastKnownSteps = steps; 
+                    updateDashboard(false);
+                } else {
+                    alert("Error saving metrics.");
+                }
+            })
+            .catch(err => console.error("Network error saving manual updates:", err));
+        }
+
+        function toggleGraphs() {
+            const drawer = document.getElementById('graphDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                buildTrendGraphs();
+            }
+        }
+
+        function buildTrendGraphs() {
+            fetch('/api/history-timeline')
+                .then(res => res.json())
+                .then(timelineData => {
+                    const ctx = document.getElementById('trendsChart').getContext('2d');
+                    
+                    if (trendChartInstance) {
+                        trendChartInstance.destroy(); 
+                    }
+
+                    trendChartInstance = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: timelineData.labels,
+                            datasets: [
+                                {
+                                    label: 'Sleep (Hours)',
+                                    data: timelineData.sleep,
+                                    borderColor: '#55918f', 
+                                    backgroundColor: 'transparent',
+                                    yAxisID: 'ySleep',
+                                    tension: 0.2
+                                },
+                                {
+                                    label: 'Steps Count',
+                                    data: timelineData.steps,
+                                    borderColor: '#d97706', 
+                                    backgroundColor: 'transparent',
+                                    yAxisID: 'ySteps',
+                                    tension: 0.2
+                                },
+                                {
+                                    label: 'HRV (ms)',
+                                    data: timelineData.hrv,
+                                    borderColor: '#dc2626', 
+                                    backgroundColor: 'transparent',
+                                    yAxisID: 'yHRV',
+                                    tension: 0.2
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: { grid: { color: 'rgba(0,0,0,0.03)' } },
+                                ySleep: { type: 'linear', position: 'left', title: { display: true, text: 'Hours' }, grid: { display: false } },
+                                ySteps: { type: 'linear', position: 'right', title: { display: true, text: 'Steps' }, grid: { display: false } },
+                                yHRV: { type: 'linear', position: 'right', title: { display: true, text: 'HRV (ms)' }, grid: { display: false }, offset: true }
+                            }
+                        }
+                    });
+                });
+        }
+
+        function handleFileUpload() {
+            const fileInput = document.getElementById('csvFileInput');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('csvFile', file);
+
+            fetch('/api/upload-csv', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) updateDashboard(true);
+                else alert("Processing Failed: " + data.error);
+            });
+        }
+
+        // State-safe internal function to store element task parameters on explicit user clicks
+        function registerActionState(taskId, checkboxElement) {
+            completedTaskRegistry[taskId] = checkboxElement.checked;
+        }
+
+        function renderStressGuides(riskScore) {
+            const panel = document.getElementById('actionStepsPanel');
+            const title = document.getElementById('actionTitle');
+            const list = document.getElementById('actionList');
+            const namiBox = document.getElementById('namiSupportBox');
+            
+            if (riskScore === 0) {
+                panel.style.display = 'none';
+                if(namiBox) namiBox.style.display = 'none';
+                return;
+            }
+            
+            panel.style.display = 'block';
+            list.innerHTML = '';
+            
+            if (riskScore > 0 && riskScore < 75) {
+                panel.style.borderLeft = '6px solid var(--accent-yellow)';
+                title.innerText = '⏳ Take it Easy: Let\'s bring your stress down';
+                title.style.color = 'var(--accent-yellow)';
+                if(namiBox) namiBox.style.display = 'none';
+                
+                const task1Checked = completedTaskRegistry['low_screen'] ? 'checked' : '';
+                const task2Checked = completedTaskRegistry['low_water'] ? 'checked' : '';
+                const task3Checked = completedTaskRegistry['low_unwind'] ? 'checked' : '';
+
+                list.innerHTML = `
+                    <li style="border-left-color: var(--accent-yellow)">
+                        <input type="checkbox" class="action-checkbox" id="low_screen" ${task1Checked} onclick="registerActionState('low_screen', this)">
+                        <span><b>Screen Break:</b> Put down your phone or look away from your computer for a few minutes to give your eyes a rest.</span>
+                    </li>
+                    <li style="border-left-color: var(--accent-yellow)">
+                        <input type="checkbox" class="action-checkbox" id="low_water" ${task2Checked} onclick="registerActionState('low_water', this)">
+                        <span><b>Drink Water:</b> Stand up, stretch your arms, and grab a fresh glass of water.</span>
+                    </li>
+                    <li style="border-left-color: var(--accent-yellow)">
+                        <input type="checkbox" class="action-checkbox" id="low_unwind" ${task3Checked} onclick="registerActionState('low_unwind', this)">
+                        <span><b>Unwind Tonight:</b> Avoid scrolling through social media or watching intense videos right before bed so your mind can relax.</span>
+                    </li>
+                `;
+            } else if (riskScore >= 75) {
+                panel.style.borderLeft = '6px solid var(--accent-red)';
+                title.innerText = '🛑 Time to Recharge: Your body needs a break';
+                title.style.color = 'var(--accent-red)';
+                if(namiBox) namiBox.style.display = 'block';
+
+                const taskHeavy1Checked = completedTaskRegistry['heavy_rest'] ? 'checked' : '';
+                const taskHeavy2Checked = completedTaskRegistry['heavy_screen'] ? 'checked' : '';
+
+                list.innerHTML = `
+                    <li style="border-left-color: var(--accent-red)">
+                        <input type="checkbox" class="action-checkbox" id="heavy_rest" ${taskHeavy1Checked} onclick="registerActionState('heavy_rest', this)">
+                        <span><b>Stop and Rest:</b> Pause any stressful tasks or heavy work right now. Your health comes first, so find a comfortable place to relax for the day.</span>
+                    </li>
+                    <li style="border-left-color: var(--accent-red)">
+                        <input type="checkbox" class="action-checkbox" id="heavy_screen" ${taskHeavy2Checked} onclick="registerActionState('heavy_screen', this)">
+                        <span><b>No Screens Before Bed:</b> Turn off your phone, tablet, or TV at least an hour or two before you sleep to help your brain rest naturally.</span>
+                    </li>
+                `;
+            }
+        }
+
+        function triggerSimulation() {
+            fetch('/api/simulate-burnout', { method: 'POST' }).then(() => updateDashboard(true));
+        }
+
+        function triggerReset() {
+            currentDaytimeMoodModifier = 0;
+            // Clear checkmark persistent cache registry on factory reset
+            for (let key in completedTaskRegistry) delete completedTaskRegistry[key];
+            
+            document.getElementById('moodGood').classList.remove('active');
+            document.getElementById('moodTired').classList.remove('active');
+            document.getElementById('moodStressed').classList.remove('active');
+            fetch('/api/reset', { method: 'POST' }).then(() => updateDashboard(true));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1628 @@
+{
+  "2026-06-13": {
+    "sleep_hours": 8,
+    "steps": 1269,
+    "calories": 150,
+    "hrv": 65
+  },
+  "2025-09-16": {
+    "sleep_hours": 0,
+    "steps": 10,
+    "calories": 0.04,
+    "hrv": 65
+  },
+  "2025-09-17": {
+    "sleep_hours": 0,
+    "steps": 2561,
+    "calories": 63.145,
+    "hrv": 65
+  },
+  "2025-09-18": {
+    "sleep_hours": 0,
+    "steps": 5287,
+    "calories": 124.28699999999998,
+    "hrv": 65
+  },
+  "2025-09-19": {
+    "sleep_hours": 0,
+    "steps": 6795,
+    "calories": 164.814,
+    "hrv": 65
+  },
+  "2025-09-20": {
+    "sleep_hours": 0,
+    "steps": 1579,
+    "calories": 36.660000000000004,
+    "hrv": 65
+  },
+  "2025-09-21": {
+    "sleep_hours": 0,
+    "steps": 1466,
+    "calories": 37.65200000000001,
+    "hrv": 65
+  },
+  "2025-09-22": {
+    "sleep_hours": 0,
+    "steps": 3418,
+    "calories": 93.90400000000001,
+    "hrv": 65
+  },
+  "2025-09-23": {
+    "sleep_hours": 0,
+    "steps": 3397,
+    "calories": 86.172,
+    "hrv": 65
+  },
+  "2025-09-24": {
+    "sleep_hours": 0,
+    "steps": 2547,
+    "calories": 60.729,
+    "hrv": 65
+  },
+  "2025-09-25": {
+    "sleep_hours": 0,
+    "steps": 2302,
+    "calories": 51.45900000000001,
+    "hrv": 65
+  },
+  "2025-09-26": {
+    "sleep_hours": 0,
+    "steps": 4825,
+    "calories": 119.22599999999998,
+    "hrv": 65
+  },
+  "2025-09-27": {
+    "sleep_hours": 0,
+    "steps": 108,
+    "calories": 1.281,
+    "hrv": 65
+  },
+  "2025-09-28": {
+    "sleep_hours": 0,
+    "steps": 134,
+    "calories": 5.947,
+    "hrv": 65
+  },
+  "2025-09-29": {
+    "sleep_hours": 0,
+    "steps": 3435,
+    "calories": 80.439,
+    "hrv": 65
+  },
+  "2025-09-30": {
+    "sleep_hours": 0,
+    "steps": 3346,
+    "calories": 83.23100000000001,
+    "hrv": 65
+  },
+  "2025-10-01": {
+    "sleep_hours": 0,
+    "steps": 2991,
+    "calories": 80.775,
+    "hrv": 65
+  },
+  "2025-10-02": {
+    "sleep_hours": 0,
+    "steps": 4042,
+    "calories": 96.64600000000002,
+    "hrv": 65
+  },
+  "2025-10-03": {
+    "sleep_hours": 0,
+    "steps": 3181,
+    "calories": 74.982,
+    "hrv": 65
+  },
+  "2025-10-04": {
+    "sleep_hours": 0,
+    "steps": 3281,
+    "calories": 73.597,
+    "hrv": 65
+  },
+  "2025-10-05": {
+    "sleep_hours": 0,
+    "steps": 1877,
+    "calories": 32.382,
+    "hrv": 65
+  },
+  "2025-10-06": {
+    "sleep_hours": 0,
+    "steps": 4452,
+    "calories": 108.62800000000003,
+    "hrv": 65
+  },
+  "2025-10-07": {
+    "sleep_hours": 0,
+    "steps": 2845,
+    "calories": 65.39399999999999,
+    "hrv": 65
+  },
+  "2025-10-08": {
+    "sleep_hours": 0,
+    "steps": 2362,
+    "calories": 55.885,
+    "hrv": 65
+  },
+  "2025-10-09": {
+    "sleep_hours": 0,
+    "steps": 6541,
+    "calories": 134.36900000000003,
+    "hrv": 65
+  },
+  "2025-10-10": {
+    "sleep_hours": 0,
+    "steps": 4166,
+    "calories": 88.68200000000002,
+    "hrv": 65
+  },
+  "2025-10-11": {
+    "sleep_hours": 0,
+    "steps": 7244,
+    "calories": 163.84200000000007,
+    "hrv": 65
+  },
+  "2025-10-12": {
+    "sleep_hours": 0,
+    "steps": 28,
+    "calories": 0.71,
+    "hrv": 65
+  },
+  "2025-10-13": {
+    "sleep_hours": 0,
+    "steps": 3678,
+    "calories": 94.023,
+    "hrv": 65
+  },
+  "2025-10-14": {
+    "sleep_hours": 0,
+    "steps": 3237,
+    "calories": 78.96700000000001,
+    "hrv": 65
+  },
+  "2025-10-15": {
+    "sleep_hours": 0,
+    "steps": 2471,
+    "calories": 58.51700000000001,
+    "hrv": 65
+  },
+  "2025-10-16": {
+    "sleep_hours": 0,
+    "steps": 3651,
+    "calories": 82.584,
+    "hrv": 65
+  },
+  "2025-10-17": {
+    "sleep_hours": 0,
+    "steps": 8187,
+    "calories": 203.369,
+    "hrv": 65
+  },
+  "2025-10-18": {
+    "sleep_hours": 0,
+    "steps": 3682,
+    "calories": 81.24100000000001,
+    "hrv": 65
+  },
+  "2025-10-19": {
+    "sleep_hours": 0,
+    "steps": 2001,
+    "calories": 37.456,
+    "hrv": 65
+  },
+  "2025-10-20": {
+    "sleep_hours": 0,
+    "steps": 2064,
+    "calories": 64.13499999999998,
+    "hrv": 65
+  },
+  "2025-10-21": {
+    "sleep_hours": 0,
+    "steps": 3867,
+    "calories": 91.424,
+    "hrv": 65
+  },
+  "2025-10-22": {
+    "sleep_hours": 0,
+    "steps": 3562,
+    "calories": 95.306,
+    "hrv": 65
+  },
+  "2025-10-23": {
+    "sleep_hours": 0,
+    "steps": 5956,
+    "calories": 152.31900000000005,
+    "hrv": 65
+  },
+  "2025-10-24": {
+    "sleep_hours": 0,
+    "steps": 3148,
+    "calories": 74.792,
+    "hrv": 65
+  },
+  "2025-10-25": {
+    "sleep_hours": 0,
+    "steps": 748,
+    "calories": 20.286999999999995,
+    "hrv": 65
+  },
+  "2025-10-26": {
+    "sleep_hours": 0,
+    "steps": 44,
+    "calories": 0.7609999999999999,
+    "hrv": 65
+  },
+  "2025-10-27": {
+    "sleep_hours": 0,
+    "steps": 43,
+    "calories": 0.22799999999999998,
+    "hrv": 65
+  },
+  "2025-10-28": {
+    "sleep_hours": 0,
+    "steps": 183,
+    "calories": 2.156,
+    "hrv": 65
+  },
+  "2025-10-29": {
+    "sleep_hours": 0,
+    "steps": 5953,
+    "calories": 133.13,
+    "hrv": 65
+  },
+  "2025-10-30": {
+    "sleep_hours": 0,
+    "steps": 7240,
+    "calories": 203.48900000000003,
+    "hrv": 65
+  },
+  "2025-10-31": {
+    "sleep_hours": 0,
+    "steps": 9646,
+    "calories": 251.84699999999998,
+    "hrv": 65
+  },
+  "2025-11-01": {
+    "sleep_hours": 0,
+    "steps": 8,
+    "calories": 0.06,
+    "hrv": 65
+  },
+  "2025-11-03": {
+    "sleep_hours": 0,
+    "steps": 4186,
+    "calories": 98.607,
+    "hrv": 65
+  },
+  "2025-11-04": {
+    "sleep_hours": 0,
+    "steps": 2661,
+    "calories": 69.673,
+    "hrv": 65
+  },
+  "2025-11-05": {
+    "sleep_hours": 0,
+    "steps": 2484,
+    "calories": 60.67600000000001,
+    "hrv": 65
+  },
+  "2025-11-06": {
+    "sleep_hours": 0,
+    "steps": 2993,
+    "calories": 65.80199999999999,
+    "hrv": 65
+  },
+  "2025-11-07": {
+    "sleep_hours": 0,
+    "steps": 2752,
+    "calories": 67.47100000000002,
+    "hrv": 65
+  },
+  "2025-11-08": {
+    "sleep_hours": 0,
+    "steps": 3117,
+    "calories": 74.119,
+    "hrv": 65
+  },
+  "2025-11-10": {
+    "sleep_hours": 0,
+    "steps": 50,
+    "calories": 0.701,
+    "hrv": 65
+  },
+  "2025-11-11": {
+    "sleep_hours": 0,
+    "steps": 23,
+    "calories": 0.482,
+    "hrv": 65
+  },
+  "2025-11-12": {
+    "sleep_hours": 0,
+    "steps": 2742,
+    "calories": 66.13699999999997,
+    "hrv": 65
+  },
+  "2025-11-13": {
+    "sleep_hours": 0,
+    "steps": 3077,
+    "calories": 76.124,
+    "hrv": 65
+  },
+  "2025-11-14": {
+    "sleep_hours": 0,
+    "steps": 6072,
+    "calories": 135.35700000000003,
+    "hrv": 65
+  },
+  "2025-11-15": {
+    "sleep_hours": 0,
+    "steps": 27,
+    "calories": 0.08499999999999999,
+    "hrv": 65
+  },
+  "2025-11-17": {
+    "sleep_hours": 0,
+    "steps": 4533,
+    "calories": 117.176,
+    "hrv": 65
+  },
+  "2025-11-18": {
+    "sleep_hours": 0,
+    "steps": 3562,
+    "calories": 88.789,
+    "hrv": 65
+  },
+  "2025-11-19": {
+    "sleep_hours": 0,
+    "steps": 3617,
+    "calories": 83.25999999999999,
+    "hrv": 65
+  },
+  "2025-11-20": {
+    "sleep_hours": 0,
+    "steps": 3220,
+    "calories": 76.77399999999999,
+    "hrv": 65
+  },
+  "2025-11-21": {
+    "sleep_hours": 0,
+    "steps": 8255,
+    "calories": 192.779,
+    "hrv": 65
+  },
+  "2025-11-25": {
+    "sleep_hours": 0,
+    "steps": 3903,
+    "calories": 99.27099999999999,
+    "hrv": 65
+  },
+  "2025-11-26": {
+    "sleep_hours": 0,
+    "steps": 9015,
+    "calories": 201.0840000000001,
+    "hrv": 65
+  },
+  "2025-11-27": {
+    "sleep_hours": 0,
+    "steps": 8399,
+    "calories": 199.97399999999996,
+    "hrv": 65
+  },
+  "2025-11-28": {
+    "sleep_hours": 0,
+    "steps": 5601,
+    "calories": 180.19099999999997,
+    "hrv": 65
+  },
+  "2025-11-30": {
+    "sleep_hours": 0,
+    "steps": 3772,
+    "calories": 91.74599999999998,
+    "hrv": 65
+  },
+  "2025-12-01": {
+    "sleep_hours": 0,
+    "steps": 3079,
+    "calories": 75.303,
+    "hrv": 65
+  },
+  "2025-12-02": {
+    "sleep_hours": 0,
+    "steps": 3174,
+    "calories": 78.054,
+    "hrv": 65
+  },
+  "2025-12-03": {
+    "sleep_hours": 0,
+    "steps": 2864,
+    "calories": 74.88200000000002,
+    "hrv": 65
+  },
+  "2025-12-04": {
+    "sleep_hours": 0,
+    "steps": 3444,
+    "calories": 83.178,
+    "hrv": 65
+  },
+  "2025-12-05": {
+    "sleep_hours": 0,
+    "steps": 3691,
+    "calories": 88.142,
+    "hrv": 65
+  },
+  "2025-12-06": {
+    "sleep_hours": 0,
+    "steps": 7172,
+    "calories": 169.24399999999994,
+    "hrv": 65
+  },
+  "2025-12-07": {
+    "sleep_hours": 0,
+    "steps": 2707,
+    "calories": 56.227999999999994,
+    "hrv": 65
+  },
+  "2025-12-08": {
+    "sleep_hours": 0,
+    "steps": 3706,
+    "calories": 100.05100000000002,
+    "hrv": 65
+  },
+  "2025-12-09": {
+    "sleep_hours": 0,
+    "steps": 2906,
+    "calories": 72.035,
+    "hrv": 65
+  },
+  "2025-12-10": {
+    "sleep_hours": 0,
+    "steps": 2610,
+    "calories": 63.887,
+    "hrv": 65
+  },
+  "2025-12-11": {
+    "sleep_hours": 0,
+    "steps": 3103,
+    "calories": 75.28200000000001,
+    "hrv": 65
+  },
+  "2025-12-12": {
+    "sleep_hours": 0,
+    "steps": 3479,
+    "calories": 90.05000000000001,
+    "hrv": 65
+  },
+  "2025-12-13": {
+    "sleep_hours": 0,
+    "steps": 4302,
+    "calories": 94.76399999999998,
+    "hrv": 65
+  },
+  "2025-12-15": {
+    "sleep_hours": 0,
+    "steps": 2915,
+    "calories": 71.013,
+    "hrv": 65
+  },
+  "2025-12-16": {
+    "sleep_hours": 0,
+    "steps": 2809,
+    "calories": 75.15799999999999,
+    "hrv": 65
+  },
+  "2025-12-17": {
+    "sleep_hours": 0,
+    "steps": 3325,
+    "calories": 85.56499999999998,
+    "hrv": 65
+  },
+  "2025-12-18": {
+    "sleep_hours": 0,
+    "steps": 2019,
+    "calories": 51.145,
+    "hrv": 65
+  },
+  "2025-12-19": {
+    "sleep_hours": 0,
+    "steps": 6495,
+    "calories": 147.384,
+    "hrv": 65
+  },
+  "2025-12-20": {
+    "sleep_hours": 0,
+    "steps": 5586,
+    "calories": 115.85300000000001,
+    "hrv": 65
+  },
+  "2025-12-24": {
+    "sleep_hours": 0,
+    "steps": 3463,
+    "calories": 70.89,
+    "hrv": 65
+  },
+  "2025-12-25": {
+    "sleep_hours": 0,
+    "steps": 144,
+    "calories": 3.209,
+    "hrv": 65
+  },
+  "2025-12-27": {
+    "sleep_hours": 0,
+    "steps": 3840,
+    "calories": 93.25099999999999,
+    "hrv": 65
+  },
+  "2025-12-28": {
+    "sleep_hours": 0,
+    "steps": 6124,
+    "calories": 221.45200000000003,
+    "hrv": 65
+  },
+  "2025-12-29": {
+    "sleep_hours": 0,
+    "steps": 20,
+    "calories": 0.6110000000000001,
+    "hrv": 65
+  },
+  "2025-12-30": {
+    "sleep_hours": 0,
+    "steps": 11,
+    "calories": 0.34099999999999997,
+    "hrv": 65
+  },
+  "2025-12-31": {
+    "sleep_hours": 0,
+    "steps": 4001,
+    "calories": 79.152,
+    "hrv": 65
+  },
+  "2026-01-01": {
+    "sleep_hours": 0,
+    "steps": 5982,
+    "calories": 132.545,
+    "hrv": 65
+  },
+  "2026-01-02": {
+    "sleep_hours": 0,
+    "steps": 104,
+    "calories": 1.732,
+    "hrv": 65
+  },
+  "2026-01-03": {
+    "sleep_hours": 0,
+    "steps": 7445,
+    "calories": 179.936,
+    "hrv": 65
+  },
+  "2026-01-06": {
+    "sleep_hours": 0,
+    "steps": 7435,
+    "calories": 179.70899999999995,
+    "hrv": 65
+  },
+  "2026-01-07": {
+    "sleep_hours": 0,
+    "steps": 2763,
+    "calories": 74.613,
+    "hrv": 65
+  },
+  "2026-01-08": {
+    "sleep_hours": 0,
+    "steps": 2234,
+    "calories": 56.26400000000002,
+    "hrv": 65
+  },
+  "2026-01-09": {
+    "sleep_hours": 0,
+    "steps": 2165,
+    "calories": 54.89699999999999,
+    "hrv": 65
+  },
+  "2026-01-10": {
+    "sleep_hours": 0,
+    "steps": 2207,
+    "calories": 46.325,
+    "hrv": 65
+  },
+  "2026-01-11": {
+    "sleep_hours": 0,
+    "steps": 1808,
+    "calories": 37.576,
+    "hrv": 65
+  },
+  "2026-01-12": {
+    "sleep_hours": 0,
+    "steps": 3771,
+    "calories": 86.54999999999998,
+    "hrv": 65
+  },
+  "2026-01-13": {
+    "sleep_hours": 0,
+    "steps": 4464,
+    "calories": 117.89899999999999,
+    "hrv": 65
+  },
+  "2026-01-14": {
+    "sleep_hours": 0,
+    "steps": 4565,
+    "calories": 106.81099999999999,
+    "hrv": 65
+  },
+  "2026-01-15": {
+    "sleep_hours": 0,
+    "steps": 2510,
+    "calories": 53.531,
+    "hrv": 65
+  },
+  "2026-01-16": {
+    "sleep_hours": 0,
+    "steps": 2925,
+    "calories": 70.733,
+    "hrv": 65
+  },
+  "2026-01-17": {
+    "sleep_hours": 0,
+    "steps": 2837,
+    "calories": 60.52700000000001,
+    "hrv": 65
+  },
+  "2026-01-18": {
+    "sleep_hours": 0,
+    "steps": 5588,
+    "calories": 107.15000000000003,
+    "hrv": 65
+  },
+  "2026-01-19": {
+    "sleep_hours": 0,
+    "steps": 1819,
+    "calories": 37.946,
+    "hrv": 65
+  },
+  "2026-01-22": {
+    "sleep_hours": 0,
+    "steps": 12,
+    "calories": 0.316,
+    "hrv": 65
+  },
+  "2026-01-23": {
+    "sleep_hours": 0,
+    "steps": 2749,
+    "calories": 74.11200000000001,
+    "hrv": 65
+  },
+  "2026-01-24": {
+    "sleep_hours": 0,
+    "steps": 4987,
+    "calories": 110.73400000000001,
+    "hrv": 65
+  },
+  "2026-01-25": {
+    "sleep_hours": 0,
+    "steps": 43,
+    "calories": 1.205,
+    "hrv": 65
+  },
+  "2026-01-26": {
+    "sleep_hours": 0,
+    "steps": 2820,
+    "calories": 76.99300000000002,
+    "hrv": 65
+  },
+  "2026-01-27": {
+    "sleep_hours": 0,
+    "steps": 3234,
+    "calories": 85.95299999999999,
+    "hrv": 65
+  },
+  "2026-01-28": {
+    "sleep_hours": 0,
+    "steps": 3268,
+    "calories": 83.33400000000002,
+    "hrv": 65
+  },
+  "2026-01-29": {
+    "sleep_hours": 0,
+    "steps": 3382,
+    "calories": 91.238,
+    "hrv": 65
+  },
+  "2026-01-30": {
+    "sleep_hours": 0,
+    "steps": 3451,
+    "calories": 90.51100000000001,
+    "hrv": 65
+  },
+  "2026-01-31": {
+    "sleep_hours": 0,
+    "steps": 3692,
+    "calories": 83.343,
+    "hrv": 65
+  },
+  "2026-02-01": {
+    "sleep_hours": 0,
+    "steps": 43,
+    "calories": 1.172,
+    "hrv": 65
+  },
+  "2026-02-02": {
+    "sleep_hours": 0,
+    "steps": 3263,
+    "calories": 81.48700000000001,
+    "hrv": 65
+  },
+  "2026-02-03": {
+    "sleep_hours": 0,
+    "steps": 3041,
+    "calories": 87.59400000000001,
+    "hrv": 65
+  },
+  "2026-02-04": {
+    "sleep_hours": 0,
+    "steps": 4281,
+    "calories": 117.91600000000004,
+    "hrv": 65
+  },
+  "2026-02-05": {
+    "sleep_hours": 0,
+    "steps": 3359,
+    "calories": 91.81899999999997,
+    "hrv": 65
+  },
+  "2026-02-06": {
+    "sleep_hours": 0,
+    "steps": 6857,
+    "calories": 153.29500000000002,
+    "hrv": 65
+  },
+  "2026-02-07": {
+    "sleep_hours": 0,
+    "steps": 3016,
+    "calories": 65.42700000000002,
+    "hrv": 65
+  },
+  "2026-02-08": {
+    "sleep_hours": 0,
+    "steps": 3864,
+    "calories": 108.38800000000003,
+    "hrv": 65
+  },
+  "2026-02-09": {
+    "sleep_hours": 0,
+    "steps": 2333,
+    "calories": 55.82,
+    "hrv": 65
+  },
+  "2026-02-10": {
+    "sleep_hours": 0,
+    "steps": 2847,
+    "calories": 86.081,
+    "hrv": 65
+  },
+  "2026-02-11": {
+    "sleep_hours": 0,
+    "steps": 3381,
+    "calories": 88.80699999999999,
+    "hrv": 65
+  },
+  "2026-02-12": {
+    "sleep_hours": 0,
+    "steps": 2492,
+    "calories": 64.888,
+    "hrv": 65
+  },
+  "2026-02-13": {
+    "sleep_hours": 0,
+    "steps": 3141,
+    "calories": 88.53399999999999,
+    "hrv": 65
+  },
+  "2026-02-14": {
+    "sleep_hours": 0,
+    "steps": 3745,
+    "calories": 88.95,
+    "hrv": 65
+  },
+  "2026-02-15": {
+    "sleep_hours": 0,
+    "steps": 1244,
+    "calories": 29.821999999999996,
+    "hrv": 65
+  },
+  "2026-02-16": {
+    "sleep_hours": 0,
+    "steps": 868,
+    "calories": 22.891000000000002,
+    "hrv": 65
+  },
+  "2026-02-17": {
+    "sleep_hours": 0,
+    "steps": 3336,
+    "calories": 94.00100000000002,
+    "hrv": 65
+  },
+  "2026-02-18": {
+    "sleep_hours": 0,
+    "steps": 3237,
+    "calories": 82.26,
+    "hrv": 65
+  },
+  "2026-02-19": {
+    "sleep_hours": 0,
+    "steps": 2475,
+    "calories": 64.198,
+    "hrv": 65
+  },
+  "2026-02-20": {
+    "sleep_hours": 0,
+    "steps": 4096,
+    "calories": 104.58800000000001,
+    "hrv": 65
+  },
+  "2026-02-21": {
+    "sleep_hours": 0,
+    "steps": 1656,
+    "calories": 48.802,
+    "hrv": 65
+  },
+  "2026-02-22": {
+    "sleep_hours": 0,
+    "steps": 3386,
+    "calories": 85.196,
+    "hrv": 65
+  },
+  "2026-02-23": {
+    "sleep_hours": 0,
+    "steps": 3011,
+    "calories": 81.391,
+    "hrv": 65
+  },
+  "2026-02-24": {
+    "sleep_hours": 0,
+    "steps": 1517,
+    "calories": 34.563,
+    "hrv": 65
+  },
+  "2026-02-25": {
+    "sleep_hours": 0,
+    "steps": 3,
+    "calories": 0,
+    "hrv": 65
+  },
+  "2026-02-26": {
+    "sleep_hours": 0,
+    "steps": 9,
+    "calories": 0.168,
+    "hrv": 65
+  },
+  "2026-02-27": {
+    "sleep_hours": 0,
+    "steps": 2510,
+    "calories": 63.91700000000001,
+    "hrv": 65
+  },
+  "2026-02-28": {
+    "sleep_hours": 0,
+    "steps": 6976,
+    "calories": 159.51600000000008,
+    "hrv": 65
+  },
+  "2026-03-01": {
+    "sleep_hours": 0,
+    "steps": 3276,
+    "calories": 69.222,
+    "hrv": 65
+  },
+  "2026-03-02": {
+    "sleep_hours": 0,
+    "steps": 2428,
+    "calories": 64.05300000000001,
+    "hrv": 65
+  },
+  "2026-03-03": {
+    "sleep_hours": 0,
+    "steps": 3574,
+    "calories": 98.42100000000002,
+    "hrv": 65
+  },
+  "2026-03-04": {
+    "sleep_hours": 0,
+    "steps": 2618,
+    "calories": 73.83999999999999,
+    "hrv": 65
+  },
+  "2026-03-05": {
+    "sleep_hours": 0,
+    "steps": 4783,
+    "calories": 109.10600000000001,
+    "hrv": 65
+  },
+  "2026-03-06": {
+    "sleep_hours": 0,
+    "steps": 3787,
+    "calories": 98.437,
+    "hrv": 65
+  },
+  "2026-03-07": {
+    "sleep_hours": 0,
+    "steps": 3612,
+    "calories": 73.924,
+    "hrv": 65
+  },
+  "2026-03-08": {
+    "sleep_hours": 0,
+    "steps": 2153,
+    "calories": 40.182,
+    "hrv": 65
+  },
+  "2026-03-09": {
+    "sleep_hours": 0,
+    "steps": 5183,
+    "calories": 127.27100000000002,
+    "hrv": 65
+  },
+  "2026-03-10": {
+    "sleep_hours": 0,
+    "steps": 4920,
+    "calories": 126.78900000000002,
+    "hrv": 65
+  },
+  "2026-03-11": {
+    "sleep_hours": 0,
+    "steps": 3003,
+    "calories": 75.30999999999999,
+    "hrv": 65
+  },
+  "2026-03-12": {
+    "sleep_hours": 0,
+    "steps": 6421,
+    "calories": 157.79800000000003,
+    "hrv": 65
+  },
+  "2026-03-13": {
+    "sleep_hours": 0,
+    "steps": 7194,
+    "calories": 191.68900000000005,
+    "hrv": 65
+  },
+  "2026-03-14": {
+    "sleep_hours": 0,
+    "steps": 974,
+    "calories": 16.771,
+    "hrv": 65
+  },
+  "2026-03-15": {
+    "sleep_hours": 0,
+    "steps": 6698,
+    "calories": 145.63300000000004,
+    "hrv": 65
+  },
+  "2026-03-17": {
+    "sleep_hours": 0,
+    "steps": 3436,
+    "calories": 91.957,
+    "hrv": 65
+  },
+  "2026-03-18": {
+    "sleep_hours": 0,
+    "steps": 6356,
+    "calories": 151.584,
+    "hrv": 65
+  },
+  "2026-03-19": {
+    "sleep_hours": 0,
+    "steps": 2077,
+    "calories": 44.84,
+    "hrv": 65
+  },
+  "2026-03-20": {
+    "sleep_hours": 0,
+    "steps": 3229,
+    "calories": 73.59399999999998,
+    "hrv": 65
+  },
+  "2026-03-21": {
+    "sleep_hours": 0,
+    "steps": 2133,
+    "calories": 34.71500000000001,
+    "hrv": 65
+  },
+  "2026-03-22": {
+    "sleep_hours": 0,
+    "steps": 3182,
+    "calories": 59.32800000000001,
+    "hrv": 65
+  },
+  "2026-03-23": {
+    "sleep_hours": 0,
+    "steps": 2175,
+    "calories": 52.394000000000005,
+    "hrv": 65
+  },
+  "2026-03-24": {
+    "sleep_hours": 0,
+    "steps": 2536,
+    "calories": 55.233999999999995,
+    "hrv": 65
+  },
+  "2026-03-25": {
+    "sleep_hours": 0,
+    "steps": 4208,
+    "calories": 112.25,
+    "hrv": 65
+  },
+  "2026-03-26": {
+    "sleep_hours": 0,
+    "steps": 2464,
+    "calories": 64.98200000000001,
+    "hrv": 65
+  },
+  "2026-03-28": {
+    "sleep_hours": 0,
+    "steps": 2377,
+    "calories": 45.67199999999998,
+    "hrv": 65
+  },
+  "2026-03-29": {
+    "sleep_hours": 0,
+    "steps": 29,
+    "calories": 0.34099999999999997,
+    "hrv": 65
+  },
+  "2026-03-30": {
+    "sleep_hours": 0,
+    "steps": 2244,
+    "calories": 64.349,
+    "hrv": 65
+  },
+  "2026-03-31": {
+    "sleep_hours": 0,
+    "steps": 2948,
+    "calories": 83.12799999999999,
+    "hrv": 65
+  },
+  "2026-04-01": {
+    "sleep_hours": 0,
+    "steps": 3042,
+    "calories": 80.01599999999999,
+    "hrv": 65
+  },
+  "2026-04-02": {
+    "sleep_hours": 0,
+    "steps": 2997,
+    "calories": 78.47200000000001,
+    "hrv": 65
+  },
+  "2026-04-03": {
+    "sleep_hours": 0,
+    "steps": 3152,
+    "calories": 81.707,
+    "hrv": 65
+  },
+  "2026-04-04": {
+    "sleep_hours": 0,
+    "steps": 3000,
+    "calories": 56.82,
+    "hrv": 65
+  },
+  "2026-04-05": {
+    "sleep_hours": 0,
+    "steps": 6145,
+    "calories": 144.54500000000007,
+    "hrv": 65
+  },
+  "2026-04-06": {
+    "sleep_hours": 0,
+    "steps": 1893,
+    "calories": 48.461000000000006,
+    "hrv": 65
+  },
+  "2026-04-07": {
+    "sleep_hours": 0,
+    "steps": 443,
+    "calories": 9.074,
+    "hrv": 65
+  },
+  "2026-04-08": {
+    "sleep_hours": 0,
+    "steps": 6693,
+    "calories": 148.44,
+    "hrv": 65
+  },
+  "2026-04-09": {
+    "sleep_hours": 0,
+    "steps": 993,
+    "calories": 17.89099999999999,
+    "hrv": 65
+  },
+  "2026-04-10": {
+    "sleep_hours": 0,
+    "steps": 9,
+    "calories": 0.121,
+    "hrv": 65
+  },
+  "2026-04-11": {
+    "sleep_hours": 0,
+    "steps": 4022,
+    "calories": 85.20499999999998,
+    "hrv": 65
+  },
+  "2026-04-12": {
+    "sleep_hours": 0,
+    "steps": 1210,
+    "calories": 20.384000000000004,
+    "hrv": 65
+  },
+  "2026-04-13": {
+    "sleep_hours": 0,
+    "steps": 3159,
+    "calories": 81.28999999999998,
+    "hrv": 65
+  },
+  "2026-04-14": {
+    "sleep_hours": 0,
+    "steps": 2938,
+    "calories": 72.062,
+    "hrv": 65
+  },
+  "2026-04-15": {
+    "sleep_hours": 0,
+    "steps": 4137,
+    "calories": 107.62700000000002,
+    "hrv": 65
+  },
+  "2026-04-16": {
+    "sleep_hours": 0,
+    "steps": 2496,
+    "calories": 59.76499999999999,
+    "hrv": 65
+  },
+  "2026-04-17": {
+    "sleep_hours": 0,
+    "steps": 3668,
+    "calories": 92.595,
+    "hrv": 65
+  },
+  "2026-04-18": {
+    "sleep_hours": 0,
+    "steps": 5929,
+    "calories": 128.67000000000004,
+    "hrv": 65
+  },
+  "2026-04-19": {
+    "sleep_hours": 0,
+    "steps": 4117,
+    "calories": 98.694,
+    "hrv": 65
+  },
+  "2026-04-20": {
+    "sleep_hours": 0,
+    "steps": 4514,
+    "calories": 114.00800000000001,
+    "hrv": 65
+  },
+  "2026-04-21": {
+    "sleep_hours": 0,
+    "steps": 8212,
+    "calories": 203.91200000000003,
+    "hrv": 65
+  },
+  "2026-04-22": {
+    "sleep_hours": 0,
+    "steps": 2575,
+    "calories": 66.819,
+    "hrv": 65
+  },
+  "2026-04-23": {
+    "sleep_hours": 0,
+    "steps": 2178,
+    "calories": 53.327,
+    "hrv": 65
+  },
+  "2026-04-24": {
+    "sleep_hours": 0,
+    "steps": 3529,
+    "calories": 95.116,
+    "hrv": 65
+  },
+  "2026-04-25": {
+    "sleep_hours": 0,
+    "steps": 705,
+    "calories": 21.187000000000005,
+    "hrv": 65
+  },
+  "2026-04-26": {
+    "sleep_hours": 0,
+    "steps": 3389,
+    "calories": 104.18299999999999,
+    "hrv": 65
+  },
+  "2026-04-27": {
+    "sleep_hours": 0,
+    "steps": 3058,
+    "calories": 77.85500000000002,
+    "hrv": 65
+  },
+  "2026-04-28": {
+    "sleep_hours": 0,
+    "steps": 6590,
+    "calories": 156.929,
+    "hrv": 65
+  },
+  "2026-04-29": {
+    "sleep_hours": 0,
+    "steps": 3186,
+    "calories": 81.09700000000002,
+    "hrv": 65
+  },
+  "2026-04-30": {
+    "sleep_hours": 0,
+    "steps": 2219,
+    "calories": 54.93700000000001,
+    "hrv": 65
+  },
+  "2026-05-01": {
+    "sleep_hours": 0,
+    "steps": 3288,
+    "calories": 79.161,
+    "hrv": 65
+  },
+  "2026-05-02": {
+    "sleep_hours": 0,
+    "steps": 1602,
+    "calories": 29.319,
+    "hrv": 65
+  },
+  "2026-05-03": {
+    "sleep_hours": 0,
+    "steps": 4419,
+    "calories": 90.89,
+    "hrv": 65
+  },
+  "2026-05-04": {
+    "sleep_hours": 0,
+    "steps": 2499,
+    "calories": 56.49600000000001,
+    "hrv": 65
+  },
+  "2026-05-05": {
+    "sleep_hours": 0,
+    "steps": 6706,
+    "calories": 150.26000000000005,
+    "hrv": 65
+  },
+  "2026-05-06": {
+    "sleep_hours": 0,
+    "steps": 2612,
+    "calories": 69.67099999999999,
+    "hrv": 65
+  },
+  "2026-05-07": {
+    "sleep_hours": 0,
+    "steps": 2619,
+    "calories": 64.383,
+    "hrv": 65
+  },
+  "2026-05-08": {
+    "sleep_hours": 0,
+    "steps": 4688,
+    "calories": 111.431,
+    "hrv": 65
+  },
+  "2026-05-09": {
+    "sleep_hours": 0,
+    "steps": 855,
+    "calories": 16.702000000000005,
+    "hrv": 65
+  },
+  "2026-05-10": {
+    "sleep_hours": 0,
+    "steps": 113,
+    "calories": 1.801,
+    "hrv": 65
+  },
+  "2026-05-11": {
+    "sleep_hours": 0,
+    "steps": 3375,
+    "calories": 84.56200000000001,
+    "hrv": 65
+  },
+  "2026-05-12": {
+    "sleep_hours": 0,
+    "steps": 2764,
+    "calories": 71.91900000000001,
+    "hrv": 65
+  },
+  "2026-05-13": {
+    "sleep_hours": 0,
+    "steps": 2409,
+    "calories": 64.376,
+    "hrv": 65
+  },
+  "2026-05-14": {
+    "sleep_hours": 0,
+    "steps": 4716,
+    "calories": 94.91099999999999,
+    "hrv": 65
+  },
+  "2026-05-15": {
+    "sleep_hours": 0,
+    "steps": 3037,
+    "calories": 70.272,
+    "hrv": 65
+  },
+  "2026-05-16": {
+    "sleep_hours": 0,
+    "steps": 1337,
+    "calories": 26.187999999999995,
+    "hrv": 65
+  },
+  "2026-05-18": {
+    "sleep_hours": 0,
+    "steps": 4149,
+    "calories": 93.61399999999999,
+    "hrv": 65
+  },
+  "2026-05-19": {
+    "sleep_hours": 0,
+    "steps": 4587,
+    "calories": 96.85900000000002,
+    "hrv": 65
+  },
+  "2026-05-20": {
+    "sleep_hours": 0,
+    "steps": 2736,
+    "calories": 65.864,
+    "hrv": 65
+  },
+  "2026-05-21": {
+    "sleep_hours": 0,
+    "steps": 2794,
+    "calories": 60.92999999999999,
+    "hrv": 65
+  },
+  "2026-05-22": {
+    "sleep_hours": 0,
+    "steps": 5621,
+    "calories": 128.82500000000002,
+    "hrv": 65
+  },
+  "2026-05-23": {
+    "sleep_hours": 0,
+    "steps": 3626,
+    "calories": 69.71900000000001,
+    "hrv": 65
+  },
+  "2026-05-24": {
+    "sleep_hours": 0,
+    "steps": 1253,
+    "calories": 32.781,
+    "hrv": 65
+  },
+  "2026-05-25": {
+    "sleep_hours": 0,
+    "steps": 206,
+    "calories": 4.637,
+    "hrv": 65
+  },
+  "2026-05-26": {
+    "sleep_hours": 0,
+    "steps": 5677,
+    "calories": 123.802,
+    "hrv": 65
+  },
+  "2026-05-27": {
+    "sleep_hours": 0,
+    "steps": 2056,
+    "calories": 54.69200000000001,
+    "hrv": 65
+  },
+  "2026-05-28": {
+    "sleep_hours": 0,
+    "steps": 1515,
+    "calories": 40.702,
+    "hrv": 65
+  },
+  "2026-05-29": {
+    "sleep_hours": 0,
+    "steps": 3376,
+    "calories": 80.699,
+    "hrv": 65
+  },
+  "2026-05-30": {
+    "sleep_hours": 0,
+    "steps": 5316,
+    "calories": 121.08800000000002,
+    "hrv": 65
+  },
+  "2026-05-31": {
+    "sleep_hours": 0,
+    "steps": 4421,
+    "calories": 116.35,
+    "hrv": 65
+  },
+  "2026-06-01": {
+    "sleep_hours": 0,
+    "steps": 163,
+    "calories": 3.008,
+    "hrv": 65
+  },
+  "2026-06-02": {
+    "sleep_hours": 0,
+    "steps": 7404,
+    "calories": 166.14100000000002,
+    "hrv": 65
+  },
+  "2026-06-03": {
+    "sleep_hours": 0,
+    "steps": 1073,
+    "calories": 19.985999999999997,
+    "hrv": 65
+  },
+  "2026-06-04": {
+    "sleep_hours": 0,
+    "steps": 4489,
+    "calories": 119.20999999999998,
+    "hrv": 65
+  },
+  "2026-06-05": {
+    "sleep_hours": 0,
+    "steps": 4889,
+    "calories": 90.37199999999996,
+    "hrv": 65
+  },
+  "2026-06-06": {
+    "sleep_hours": 0,
+    "steps": 5456,
+    "calories": 108.14200000000001,
+    "hrv": 65
+  },
+  "2026-06-07": {
+    "sleep_hours": 0,
+    "steps": 4430,
+    "calories": 102.648,
+    "hrv": 65
+  },
+  "2026-06-08": {
+    "sleep_hours": 0,
+    "steps": 865,
+    "calories": 14.982999999999999,
+    "hrv": 65
+  },
+  "2026-06-09": {
+    "sleep_hours": 0,
+    "steps": 5142,
+    "calories": 114.99799999999999,
+    "hrv": 65
+  },
+  "2026-06-10": {
+    "sleep_hours": 0,
+    "steps": 3288,
+    "calories": 77.211,
+    "hrv": 65
+  },
+  "2026-06-11": {
+    "sleep_hours": 0,
+    "steps": 7137,
+    "calories": 148.82700000000003,
+    "hrv": 65
+  },
+  "2026-06-12": {
+    "sleep_hours": 0,
+    "steps": 72,
+    "calories": 1.2590000000000001,
+    "hrv": 65
+  },
+  "2025-11-02": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0,
+    "hrv": 65
+  },
+  "2025-11-09": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.02,
+    "hrv": 65
+  },
+  "2025-11-16": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.08,
+    "hrv": 65
+  },
+  "2025-11-22": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0,
+    "hrv": 65
+  },
+  "2025-11-23": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0,
+    "hrv": 65
+  },
+  "2025-11-24": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.042,
+    "hrv": 65
+  },
+  "2025-11-29": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.104,
+    "hrv": 65
+  },
+  "2025-12-14": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.253,
+    "hrv": 65
+  },
+  "2025-12-21": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.032,
+    "hrv": 65
+  },
+  "2025-12-22": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.09,
+    "hrv": 65
+  },
+  "2025-12-23": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0,
+    "hrv": 65
+  },
+  "2025-12-26": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.107,
+    "hrv": 65
+  },
+  "2026-01-04": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.22200000000000006,
+    "hrv": 65
+  },
+  "2026-01-05": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.6629999999999999,
+    "hrv": 65
+  },
+  "2026-01-20": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.114,
+    "hrv": 65
+  },
+  "2026-01-21": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.37699999999999995,
+    "hrv": 65
+  },
+  "2026-03-16": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.09000000000000001,
+    "hrv": 65
+  },
+  "2026-03-27": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.14,
+    "hrv": 65
+  },
+  "2026-05-17": {
+    "sleep_hours": 0,
+    "steps": 0,
+    "calories": 0.291,
+    "hrv": 65
+  }
+}
