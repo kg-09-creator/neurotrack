@@ -3,24 +3,24 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const { XMLParser } = require('fast-xml-parser');
+// FIXED: Imported Vercel KV storage client to handle persistent database sync
+const { kv } = require('@vercel/kv'); 
 const app = express();
 
 // FIXED: Use memory storage instead of disk storage to prevent Vercel EROFS read-only crashes
 const upload = multer({ storage: multer.memoryStorage() });
 
 // --- VERCEL ROUTING PATCHES ---
-// Tells Express to serve all static asset structures from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Explicitly forces index.html distribution on base project entry queries
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 // ------------------------------
 
-// FIXED: Use Vercel's writable temporary directory (/tmp) for execution on cloud instances
-const DATA_FILE = process.env.VERCEL ? path.join('/tmp', 'history.json') : path.join(__dirname, 'history.json');
+// Fixed Key constant for Redis lookups
+const KV_HISTORY_KEY = 'neurotrack_user_history';
 
 // Get exact local date string (YYYY-MM-DD)
 function getLocalDateString() {
@@ -30,31 +30,37 @@ function getLocalDateString() {
     return localDate.toISOString().substring(0, 10);
 }
 
-function readHistory() {
+// FIXED: Converted to async database retrieval to pull records persistently from Vercel KV
+async function readHistory() {
     try {
-        if (!fs.existsSync(DATA_FILE)) {
+        const data = await kv.get(KV_HISTORY_KEY);
+        if (!data) {
+            // Seed baseline data if database is totally empty
             const initialHistory = {};
             const todayStr = getLocalDateString();
             initialHistory[todayStr] = { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
-            fs.writeFileSync(DATA_FILE, JSON.stringify(initialHistory, null, 2));
+            await kv.set(KV_HISTORY_KEY, initialHistory);
             return initialHistory;
         }
-        return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+        return data;
     } catch (e) {
+        console.error("Database read fault:", e);
         return {};
     }
 }
 
-function writeHistory(history) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(history, null, 2));
+// FIXED: Converted to async database persistence writes
+async function writeHistory(history) {
+    try {
+        await kv.set(KV_HISTORY_KEY, history);
+    } catch (e) {
+        console.error("Database write fault:", e);
+    }
 }
 
-function buildDashboardState() {
-    const history = readHistory();
+function calculateDashboardMetrics(history) {
     const todayStr = getLocalDateString();
-    
     const todayData = history[todayStr] || { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
-    
     const allDates = Object.keys(history).sort();
     
     const historicalDates = allDates.filter(d => {
@@ -106,32 +112,42 @@ function buildDashboardState() {
     };
 }
 
-app.get('/api/status', (req, res) => {
-    res.json(buildDashboardState());
-});
-
-app.post('/api/manual-log', (req, res) => {
-    const { sleep, steps, hrv } = req.body;
-    const history = readHistory();
-    const todayStr = getLocalDateString();
-
-    if (!history[todayStr]) {
-        history[todayStr] = { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
-    }
-
-    if (sleep !== undefined) history[todayStr].sleep_hours = parseFloat(sleep);
-    if (steps !== undefined) history[todayStr].steps = parseInt(steps);
-    if (hrv !== undefined) history[todayStr].hrv = parseInt(hrv);
-
-    writeHistory(history);
-    res.json({ success: true });
-});
-
-// ROUTE CONFIGURATION UPGRADE: Handles array patterns to bridge index.html uploads (/api/upload-csv & /api/upload-xml)
-app.post(['/api/upload-xml', '/api/upload-csv'], upload.single('csvFile'), (req, res) => {
+// FIXED: Updated status route wrapper to handle async database compilation
+app.get('/api/status', async (req, res) => {
     try {
-        // Fallback checks for standard input names if field tags shift dynamically
-        const targetedFile = req.file || req.files?.[0];
+        const history = await readHistory();
+        res.json(calculateDashboardMetrics(history));
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// FIXED: Converted manual log route to async await to guarantee safe sequential saving
+app.post('/api/manual-log', async (req, res) => {
+    try {
+        const { sleep, steps, hrv } = req.body;
+        const history = await readHistory();
+        const todayStr = getLocalDateString();
+
+        if (!history[todayStr]) {
+            history[todayStr] = { sleep_hours: 7.2, steps: 8400, calories: 500, hrv: 65 };
+        }
+
+        if (sleep !== undefined) history[todayStr].sleep_hours = parseFloat(sleep);
+        if (steps !== undefined) history[todayStr].steps = parseInt(steps);
+        if (hrv !== undefined) history[todayStr].hrv = parseInt(hrv);
+
+        await writeHistory(history);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// FIXED: Updated Shortcut payload parser with async writing hooks to stop data drops 
+app.post(['/api/upload-xml', '/api/upload-csv'], upload.any(), async (req, res) => {
+    try {
+        const targetedFile = req.file || (req.files && req.files.find(f => f.fieldname === 'csvFile')) || (req.files && req.files[0]);
         if (!targetedFile) return res.status(400).json({ success: false, error: "No file received." });
 
         const xmlData = targetedFile.buffer.toString('utf8');
@@ -141,14 +157,13 @@ app.post(['/api/upload-xml', '/api/upload-csv'], upload.single('csvFile'), (req,
         let rawRecords = jsonObj.HealthData?.Record || [];
         if (!Array.isArray(rawRecords)) rawRecords = [rawRecords];
 
-        const history = readHistory();
+        const history = await readHistory();
         const todayStr = getLocalDateString(); 
 
         rawRecords.forEach(rec => {
             if (!rec.startDate) return;
             
             const dateStr = rec.startDate.substring(0, 10);
-
             if (dateStr === todayStr) return;
 
             if (!history[dateStr]) {
@@ -175,58 +190,70 @@ app.post(['/api/upload-xml', '/api/upload-csv'], upload.single('csvFile'), (req,
             if (!history[dateStr].hrv) history[dateStr].hrv = 65;
         });
 
-        writeHistory(history);
+        await writeHistory(history);
+        res.json({ success: true, message: "Shortcut data written permanently to cloud DB." });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// FIXED: Async transition complete
+app.post('/api/simulate-burnout', async (req, res) => {
+    try {
+        const history = await readHistory();
+        const todayStr = getLocalDateString();
+        
+        history[todayStr] = { sleep_hours: 4.5, steps: 1900, calories: 150, hrv: 20 };
+        await writeHistory(history);
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
 });
 
-app.post('/api/simulate-burnout', (req, res) => {
-    const history = readHistory();
-    const todayStr = getLocalDateString();
-    
-    history[todayStr] = { sleep_hours: 4.5, steps: 1900, calories: 150, hrv: 20 };
-    writeHistory(history);
-    res.json({ success: true });
-});
-
-app.post('/api/reset', (req, res) => {
-    if (fs.existsSync(DATA_FILE)) {
-        try { fs.unlinkSync(DATA_FILE); } catch(e){}
+// FIXED: Drops the persistence hash entirely upon user instantiation requests
+app.post('/api/reset', async (req, res) => {
+    try {
+        await kv.del(KV_HISTORY_KEY);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
     }
-    res.json({ success: true });
 });
 
-app.get('/api/history-timeline', (req, res) => {
-    const history = readHistory();
-    const allDates = Object.keys(history).sort();
-    
-    const sortedDates = allDates.filter(d => history[d] && (history[d].steps > 500 || history[d].sleep_hours > 2)).slice(-14);
-
-    const labels = [];
-    const sleepDataset = [];
-    const stepsDataset = [];
-    const hrvDataset = [];
-
-    sortedDates.forEach(date => {
-        const dateObj = new Date(date + 'T00:00:00');
-        const formattedLabel = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+// FIXED: Timeline graph calculations dynamically fetch data from the cloud
+app.get('/api/history-timeline', async (req, res) => {
+    try {
+        const history = await readHistory();
+        const allDates = Object.keys(history).sort();
         
-        labels.push(formattedLabel);
-        sleepDataset.push(parseFloat((history[date].sleep_hours || 0).toFixed(1)));
-        stepsDataset.push(Math.round(history[date].steps || 0));
-        hrvDataset.push(Math.round(history[date].hrv || 65));
-    });
+        const sortedDates = allDates.filter(d => history[d] && (history[d].steps > 500 || history[d].sleep_hours > 2)).slice(-14);
 
-    res.json({
-        labels: labels,
-        sleep: sleepDataset,
-        steps: stepsDataset,
-        hrv: hrvDataset
-    });
+        const labels = [];
+        const sleepDataset = [];
+        const stepsDataset = [];
+        const hrvDataset = [];
+
+        sortedDates.forEach(date => {
+            const dateObj = new Date(date + 'T00:00:00');
+            const formattedLabel = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+            
+            labels.push(formattedLabel);
+            sleepDataset.push(parseFloat((history[date].sleep_hours || 0).toFixed(1)));
+            stepsDataset.push(Math.round(history[date].steps || 0));
+            hrvDataset.push(Math.round(history[date].hrv || 65));
+        });
+
+        res.json({
+            labels: labels,
+            sleep: sleepDataset,
+            steps: stepsDataset,
+            hrv: hrvDataset
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => console.log(`Engine processing online at port ${PORT}`));
