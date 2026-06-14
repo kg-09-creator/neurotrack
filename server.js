@@ -4,12 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const { XMLParser } = require('fast-xml-parser');
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+
+// FIXED: Use memory storage instead of disk storage to prevent Vercel EROFS read-only crashes
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(express.static('public'));
 app.use(express.json());
 
-const DATA_FILE = path.join(__dirname, 'history.json');
+// FIXED: Use Vercel's writable temporary directory (/tmp) for execution on cloud instances
+const DATA_FILE = process.env.VERCEL ? path.join('/tmp', 'history.json') : path.join(__dirname, 'history.json');
 
 // Get exact local date string (YYYY-MM-DD)
 function getLocalDateString() {
@@ -116,12 +119,12 @@ app.post('/api/manual-log', (req, res) => {
     res.json({ success: true });
 });
 
-// FIXED: Cleaned route naming context and fixed Apple Health XML identifier tokens
+// FIXED: Read file data structure dynamically from incoming RAM buffer to accommodate memory storage routing
 app.post('/api/upload-xml', upload.single('appleHealthFile'), (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ success: false, error: "No file received." });
 
-        const xmlData = fs.readFileSync(req.file.path, 'utf8');
+        const xmlData = req.file.buffer.toString('utf8');
         const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
         const jsonObj = parser.parse(xmlData);
 
@@ -134,17 +137,14 @@ app.post('/api/upload-xml', upload.single('appleHealthFile'), (req, res) => {
         rawRecords.forEach(rec => {
             if (!rec.startDate) return;
             
-            // Extract the simple date prefix safely
             const dateStr = rec.startDate.substring(0, 10);
 
-            // Skip today's data to protect live tracking overrides
             if (dateStr === todayStr) return;
 
             if (!history[dateStr]) {
                 history[dateStr] = { sleep_hours: 0, steps: 0, calories: 0, hrv: 65 };
             }
 
-            // FIXED: Corrected type identifier to accurately target Apple Health sleep tokens
             if (rec.type === "HKCategoryTypeIdentifierSleepAnalysis" || rec.value === "HKCategoryValueSleepAnalysisAsleep") {
                 const start = new Date(rec.startDate);
                 const end = new Date(rec.endDate || rec.startDate);
@@ -162,15 +162,12 @@ app.post('/api/upload-xml', upload.single('appleHealthFile'), (req, res) => {
                 history[dateStr].calories += parseFloat(rec.value || 0);
             }
 
-            // Fallback default metric checks
             if (!history[dateStr].hrv) history[dateStr].hrv = 65;
         });
 
         writeHistory(history);
-        try { fs.unlinkSync(req.file.path); } catch(e){}
         res.json({ success: true });
     } catch (err) {
-        try { fs.unlinkSync(req.file.path); } catch(e){}
         res.status(500).json({ success: false, error: err.message });
     }
 });
