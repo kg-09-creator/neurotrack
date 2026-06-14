@@ -9,7 +9,10 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+
+// INCREASED LIMITS: Handles heavy-load tests and large historical JSON payloads easily
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -111,7 +114,7 @@ app.post('/api/manual-log', async (req, res) => {
             history[targetDate] = { steps: 0, calories: 0 };
         }
 
-        // Only parse steps and calories
+        // Clean parse metrics
         if (steps !== undefined) history[targetDate].steps = parseInt(steps, 10) || 0;
         if (calories !== undefined) history[targetDate].calories = parseInt(calories, 10) || 0;
 
@@ -142,6 +145,15 @@ app.get('/api/history-timeline', async (req, res) => {
         });
 
         res.json({ labels, steps: stepsDataset, calories: caloriesDataset });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+app.post('/api/reset', async (req, res) => {
+    try {
+        await kv.del(KV_HISTORY_KEY);
+        res.json({ success: true });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
